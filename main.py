@@ -153,7 +153,7 @@ async def gamble(interaction: discord.Interaction, amount: int):
         return
     balance = bank.checkBalance(interaction.user.id)
     if amount > balance:
-        await interaction.response.send_message("you don't have enough xixoyens :Ԑ")
+        await interaction.response.send_message("you don't have enough xixoyens 3:")
         return
     outcome = random.choice(["win", "lose"])
     if outcome == "win":
@@ -169,7 +169,7 @@ async def gamble(interaction: discord.Interaction, amount: int):
         bank.xixobankf.seek(0)
         json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
         bank.xixobankf.truncate()
-        await interaction.response.send_message(f"you lost :Ԑ your new balance is {new_balance}")
+        await interaction.response.send_message(f"you lost 3: your new balance is {new_balance}")
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
