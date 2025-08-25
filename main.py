@@ -152,7 +152,7 @@ async def playyt(interaction: discord.Interaction, url: str):
         if url == "https://www.youtube.com/watch?v=DxxLzJDARbo":
             await voice_channel.send(f'no more evil')
             await interaction.guild.me.edit(nick="xixobot")
-            with open("./xixobot.png", "rb") as image:
+            with open("./xixobot.jpg", "rb") as image:
                 await client.user.edit(avatar=image.read())
         os.remove("./music.mp3")
 
