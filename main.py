@@ -1,4 +1,5 @@
 import discord
+import os
 import asyncio
 import random
 import json
@@ -112,6 +113,7 @@ async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
         while vc.is_playing():
             await asyncio.sleep(1)
         await vc.disconnect()
+        os.remove(filepath)
     else:
         await interaction.response.send_message('user is not in a channel')
 
