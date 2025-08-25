@@ -4,7 +4,7 @@ import asyncio
 import random
 import json
 import re
-from yt_dlp import YoutubeDL
+from yt_dlp import YoutubeDL # type: ignore
 
 with open('private.json') as f:
     data = json.load(f)
