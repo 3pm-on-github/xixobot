@@ -132,7 +132,7 @@ async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
     else:
         await interaction.response.send_message('user is not in a channel')
 
-@client.tree.command(name='playyt',description='plays a yourube video in a voice channel')
+@client.tree.command(name='playyt',description='plays a youtube video in a voice channel')
 async def playyt(interaction: discord.Interaction, url: str):
     await interaction.response.defer()
     user=interaction.user
@@ -140,10 +140,20 @@ async def playyt(interaction: discord.Interaction, url: str):
     voice_channel=user.voice.channel
     if voice_channel!= None:
         vc = await voice_channel.connect()
+        if url == "https://www.youtube.com/watch?v=DxxLzJDARbo":
+            await voice_channel.send(f'EVIL MODE!!!!!!!!!!!!')
+            await interaction.guild.me.edit(nick="EVIL XIXOBOT!!!!!")
+            with open("./evil xixobot.png", "rb") as image:
+                await client.user.edit(avatar=image.read())
         vc.play(discord.FFmpegPCMAudio("./music.mp3"), after=lambda _: print('done'))
         while vc.is_playing():
             await asyncio.sleep(1)
         await vc.disconnect()
+        if url == "https://www.youtube.com/watch?v=DxxLzJDARbo":
+            await voice_channel.send(f'no more evil')
+            await interaction.guild.me.edit(nick="xixobot")
+            with open("./xixobot.png", "rb") as image:
+                await client.user.edit(avatar=image.read())
         os.remove("./music.mp3")
 
 @client.tree.command(name='gamble',description='lets go gambling!!!')
@@ -170,6 +180,7 @@ async def gamble(interaction: discord.Interaction, amount: int):
         json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
         bank.xixobankf.truncate()
         await interaction.response.send_message(f"you lost 3: your new balance is {new_balance}")
+
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
