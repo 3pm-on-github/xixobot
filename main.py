@@ -59,28 +59,28 @@ class XixoBot(discord.Client):
                 channel = guild.get_channel(1409281073174679793)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL PING @everyone', self.msgcount, "MESSAGES!!!!!")
+                        await channel.send('EVIL PING @everyone' + str(self.msgcount) + "MESSAGES!!!!!")
                         print("EVIL PING!", self.msgcount, "messages!")
                     else:
-                        await channel.send('ping @everyone', self.msgcount, "messages!")
+                        await channel.send('ping @everyone' + str(self.msgcount) + "messages!")
                         print("ping!", self.msgcount, "messages!")
             if self.msgcount % 100 == 0:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872>', self.msgcount, "MESSAGES!!!!")
+                        await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872>' + str(self.msgcount) + "MESSAGES!!!!")
                         print("EVIL SILLY!!!!")
                     else:
-                        await channel.send('silly <a:sillysquish:1409285183441473647>', self.msgcount, "messages!")
+                        await channel.send('silly <a:sillysquish:1409285183441473647>' + str(self.msgcount) + "messages!")
                         print("silly!")
             if self.supersilly == False and self.msgcount == 1000:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212>', self.msgcount, "MESSAGES!!!!")
+                        await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212>' + str(self.msgcount) + "MESSAGES!!!!")
                         print("EVIL SUPER SILLY!!!!")
                     else:
-                        await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>', self.msgcount, "messages!")
+                        await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>' + str(self.msgcount) + "messages!")
                         print("super silly!")
                     self.supersilly = True
                     self.msgcount = 0
