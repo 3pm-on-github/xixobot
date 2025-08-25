@@ -30,6 +30,7 @@ class XixoBot(discord.Client):
         self.msgcount = 0
         self.messages = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", "3pm's ip address is 104.26.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼"]
         self.supersilly = False
+        self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
     async def on_ready(self):
         print(f'Logged in as {self.user}')
@@ -52,20 +53,31 @@ class XixoBot(discord.Client):
             if self.msgcount % 10 == 0:
                 channel = guild.get_channel(1409281073174679793)
                 if channel:
-                    await channel.send('ping @everyone')
-                    print("ping!", self.msgcount, "messages!")
-            if self.msgcount == 100:
+                    if self.evilmode:
+                        await channel.send('EVIL PING @everyone')
+                        print("EVIL PING!", self.msgcount, "messages!")
+                    else:
+                        await channel.send('ping @everyone')
+                        print("ping!", self.msgcount, "messages!")
+            if self.msgcount % 100 == 0:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
-                    await channel.send('silly <a:sillysquish:1409285183441473647>')
-                    print("silly!")
-                    self.msgcount = 0
+                    if self.evilmode:
+                        await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872>')
+                        print("EVIL SILLY!!!!")
+                    else:
+                        await channel.send('silly <a:sillysquish:1409285183441473647>')
+                        print("silly!")
             if self.supersilly == False and self.msgcount == 1000:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
-                    await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>')
+                    if self.evilmode:
+                        await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212>')
+                        print("EVIL SUPER SILLY!!!!")
+                    else:
+                        await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>')
+                        print("super silly!")
                     self.supersilly = True
-                    print("super silly!")
                     self.msgcount = 0
 
 class XixoBank:
@@ -143,7 +155,14 @@ async def playyt(interaction: discord.Interaction, url: str):
         if url == "https://www.youtube.com/watch?v=DxxLzJDARbo":
             await voice_channel.send(f'EVIL MODE!!!!!!!!!!!!')
             await interaction.guild.me.edit(nick="EVIL XIXOBOT!!!!!")
+            client.evilmode = True
             with open("./evil xixobot.png", "rb") as image:
+                await client.user.edit(avatar=image.read())
+        else:
+            await voice_channel.send(f'no more evil')
+            await interaction.guild.me.edit(nick="xixobot")
+            client.evilmode = False
+            with open("./xixobot.jpg", "rb") as image:
                 await client.user.edit(avatar=image.read())
         vc.play(discord.FFmpegPCMAudio("./music.mp3"), after=lambda _: print('done'))
         while vc.is_playing():
@@ -152,6 +171,7 @@ async def playyt(interaction: discord.Interaction, url: str):
         if url == "https://www.youtube.com/watch?v=DxxLzJDARbo":
             await voice_channel.send(f'no more evil')
             await interaction.guild.me.edit(nick="xixobot")
+            client.evilmode = False
             with open("./xixobot.jpg", "rb") as image:
                 await client.user.edit(avatar=image.read())
         os.remove("./music.mp3")
