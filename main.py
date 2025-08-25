@@ -146,5 +146,30 @@ async def playyt(interaction: discord.Interaction, url: str):
         await vc.disconnect()
         os.remove("./music.mp3")
 
+@client.tree.command(name='gamble',description='lets go gambling!!!')
+async def gamble(interaction: discord.Interaction, amount: int):
+    if amount <= 0:
+        await interaction.response.send_message("please enter a positive amount")
+        return
+    balance = bank.checkBalance(interaction.user.id)
+    if amount > balance:
+        await interaction.response.send_message("you don't have enough xixoyens :Ԑ")
+        return
+    outcome = random.choice(["win", "lose"])
+    if outcome == "win":
+        new_balance = balance + amount
+        bank.xixobankdata["balances"][str(interaction.user.id)] = new_balance
+        bank.xixobankf.seek(0)
+        json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
+        bank.xixobankf.truncate()
+        await interaction.response.send_message(f"you won!!!! your new balance is {new_balance}")
+    else:
+        new_balance = balance - amount
+        bank.xixobankdata["balances"][str(interaction.user.id)] = new_balance
+        bank.xixobankf.seek(0)
+        json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
+        bank.xixobankf.truncate()
+        await interaction.response.send_message(f"you lost :Ԑ your new balance is {new_balance}")
+
 client.setup_hook = setup_hook
 client.run(TOKEN)
