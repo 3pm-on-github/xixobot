@@ -140,7 +140,7 @@ async def playyt(interaction: discord.Interaction, url: str):
     download_audio(url)
     voice_channel=user.voice.channel
     if voice_channel!= None:
-        await interaction.response.send_message(f'playing in {voice_channel.name}')
+        await interaction.response.edit_message(f'playing in {voice_channel.name}')
         vc = await voice_channel.connect()
         vc.play(discord.FFmpegPCMAudio("./music.mp3"), after=lambda _: print('done'))
         while vc.is_playing():
@@ -148,7 +148,7 @@ async def playyt(interaction: discord.Interaction, url: str):
         await vc.disconnect()
         os.remove("./music.mp3")
     else:
-        await interaction.response.send_message('user is not in a channel')
+        await interaction.response.edit_message('user is not in a channel')
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
