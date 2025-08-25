@@ -181,6 +181,5 @@ async def gamble(interaction: discord.Interaction, amount: int):
         bank.xixobankf.truncate()
         await interaction.response.send_message(f"you lost 3: your new balance is {new_balance}")
 
-
 client.setup_hook = setup_hook
 client.run(TOKEN)
