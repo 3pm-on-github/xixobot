@@ -134,21 +134,17 @@ async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
 
 @client.tree.command(name='playyt',description='plays a yourube video in a voice channel')
 async def playyt(interaction: discord.Interaction, url: str):
-    await interaction.response.send_message("please wait, this may take some time...")
-    await interaction.response.edit_message(content="downloaded audio, joining voice channel...")
+    await interaction.response.defer()
     user=interaction.user
     download_audio(url)
     voice_channel=user.voice.channel
     if voice_channel!= None:
-        await interaction.response.edit_message(f'playing in {voice_channel.name}')
         vc = await voice_channel.connect()
         vc.play(discord.FFmpegPCMAudio("./music.mp3"), after=lambda _: print('done'))
         while vc.is_playing():
             await asyncio.sleep(1)
         await vc.disconnect()
         os.remove("./music.mp3")
-    else:
-        await interaction.response.edit_message('user is not in a channel')
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
