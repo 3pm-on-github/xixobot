@@ -30,6 +30,7 @@ class XixoBot(discord.Client):
         super().__init__(*args, **kwargs)
         self.msgcount = 0
         self.defaultmsg = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", "3pm's ip address is 104.26.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼"]
+        self.sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
         self.messages = []
         self.supersilly = False
         self.evilmode = False
@@ -49,6 +50,8 @@ class XixoBot(discord.Client):
         self.msgcount += 1
         self.messages.append(message.content)
         guild = self.get_guild(1409280301666013286)
+        if re.search(r"(paw|me+o+w|mrr+)", message.content) and ("<@&1409284344039870484>" in message.content or f"<@{self.user.id}>" in message.content):
+            await message.channel.send(random.choice(self.sillymsg))
         if guild:
             if self.supersilly == True and self.msgcount == 0:
                 self.supersilly = False
@@ -56,28 +59,28 @@ class XixoBot(discord.Client):
                 channel = guild.get_channel(1409281073174679793)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL PING @everyone')
+                        await channel.send('EVIL PING @everyone', self.msgcount, "MESSAGES!!!!!")
                         print("EVIL PING!", self.msgcount, "messages!")
                     else:
-                        await channel.send('ping @everyone')
+                        await channel.send('ping @everyone', self.msgcount, "messages!")
                         print("ping!", self.msgcount, "messages!")
             if self.msgcount % 100 == 0:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872>')
+                        await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872>', self.msgcount, "MESSAGES!!!!")
                         print("EVIL SILLY!!!!")
                     else:
-                        await channel.send('silly <a:sillysquish:1409285183441473647>')
+                        await channel.send('silly <a:sillysquish:1409285183441473647>', self.msgcount, "messages!")
                         print("silly!")
             if self.supersilly == False and self.msgcount == 1000:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212>')
+                        await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212>', self.msgcount, "MESSAGES!!!!")
                         print("EVIL SUPER SILLY!!!!")
                     else:
-                        await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>')
+                        await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212>', self.msgcount, "messages!")
                         print("super silly!")
                     self.supersilly = True
                     self.msgcount = 0
@@ -240,6 +243,34 @@ async def transfer(interaction: discord.Interaction, member: discord.Member, amo
     bank.xixobankf.seek(0)
     json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
     bank.xixobankf.truncate()
+
+@client.tree.command(name='add',description='add xixoyens to another user (admin only)')
+async def transfer(interaction: discord.Interaction, member: discord.Member, amount: int):
+    if amount <= 0:
+        await interaction.response.send_message("please enter a positive amount")
+        return
+    if member.bot:
+        await interaction.response.send_message("you cannot transfer xixoyens to a bot")
+        return
+    if (not interaction.user.guild_permissions.administrator) and (not interaction.user.id == 932666698438418522):
+        await interaction.response.send_message("you do not have permission to use this command")
+        return
+    recipient_balance = bank.checkBalance(member.id)
+    if isinstance(recipient_balance, str):
+        await interaction.response.send_message("the other person doesm't have an account on the xixobank")
+        return
+    new_recipient_balance = recipient_balance + amount
+    bank.xixobankdata["balances"][str(member.id)] = new_recipient_balance
+    bank.xixobankdata["transactions"].append({
+        "type": "add",
+        "who": int(member.id),
+        "amount": amount
+    })
+    await interaction.response.send_message(f"you have added {amount} xixoyens to {member.name}. their new balance is {new_recipient_balance}")
+    bank.xixobankf.seek(0)
+    json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
+    bank.xixobankf.truncate()
+
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
