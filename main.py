@@ -3,6 +3,7 @@ import os
 import asyncio
 import random
 import json
+import re
 from yt_dlp import YoutubeDL
 
 with open('private.json') as f:
@@ -28,7 +29,8 @@ class XixoBot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.msgcount = 0
-        self.messages = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", "3pm's ip address is 104.26.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼"]
+        self.defaultmsg = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", "3pm's ip address is 104.26.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼"]
+        self.messages = []
         self.supersilly = False
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
@@ -116,6 +118,14 @@ async def balance_command(interaction: discord.Interaction):
     embed.add_field(name="Balance", value=balance, inline=True)
     await interaction.response.send_message(embed=embed)
 
+@client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
+async def randomstr_command(interaction: discord.Interaction):
+    if client.messages:
+        randommessage = random.choice(client.defaultmsg)
+        await interaction.response.send_message(randommessage)
+    else:
+        await interaction.response.send_message("no messages have been recorded yet!")
+
 @client.tree.command(name="randommsg", description="sends a random message from chat")
 async def randommsg_command(interaction: discord.Interaction):
     if client.messages:
@@ -130,7 +140,7 @@ async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
         await interaction.response.send_message("please upload a valid .mp3 file")
         return
     user=interaction.user
-    filepath = f"./{file.filename}"
+    filepath = f"./music.mp3"
     await file.save(filepath)
     voice_channel=user.voice.channel
     if voice_channel!= None:
@@ -159,7 +169,6 @@ async def playyt(interaction: discord.Interaction, url: str):
             with open("./evil xixobot.png", "rb") as image:
                 await client.user.edit(avatar=image.read())
         else:
-            await voice_channel.send(f'no more evil')
             await interaction.guild.me.edit(nick="xixobot")
             client.evilmode = False
             with open("./xixobot.jpg", "rb") as image:
@@ -200,6 +209,37 @@ async def gamble(interaction: discord.Interaction, amount: int):
         json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
         bank.xixobankf.truncate()
         await interaction.response.send_message(f"you lost 3: your new balance is {new_balance}")
+
+@client.tree.command(name='transfer',description='transfer xixoyens to another user')
+async def transfer(interaction: discord.Interaction, member: discord.Member, amount: int):
+    if amount <= 0:
+        await interaction.response.send_message("please enter a positive amount")
+        return
+    if member.bot:
+        await interaction.response.send_message("you cannot transfer xixoyens to a bot")
+        return
+    balance = bank.checkBalance(interaction.user.id)
+    if amount > balance:
+        await interaction.response.send_message("you don't have enough xixoyens")
+        return
+    recipient_balance = bank.checkBalance(member.id)
+    if isinstance(recipient_balance, str):
+        await interaction.response.send_message("the other person doesm't have an account on the xixobank")
+        return
+    new_balance = balance - amount
+    new_recipient_balance = recipient_balance + amount
+    bank.xixobankdata["balances"][str(interaction.user.id)] = new_balance
+    bank.xixobankdata["balances"][str(member.id)] = new_recipient_balance
+    bank.xixobankdata["transactions"].append({
+        "type": "tra",
+        "from": int(interaction.user.id),
+        "to": int(member.id),
+        "amount": amount
+    })
+    await interaction.response.send_message(f"you have transferred {amount} xixoyens to {member.name}. your new balance is {new_balance}")
+    bank.xixobankf.seek(0)
+    json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
+    bank.xixobankf.truncate()
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
