@@ -28,7 +28,7 @@ class XixoBot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.msgcount = 0
-        self.messages = []
+        self.messages = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", "3pm's ip address is 104.26.-"]
         self.supersilly = False
         self.tree = discord.app_commands.CommandTree(self)
     async def on_ready(self):
