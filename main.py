@@ -97,18 +97,23 @@ async def randommsg_command(interaction: discord.Interaction):
         await interaction.response.send_message("no messages have been recorded yet!")
 
 @client.tree.command(name='playmp3',description='plays an mp3 in a voice channel')
-async def playmp3(interaction: discord.Interaction):
+async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
+    if not file.filename.endswith(".mp3"):
+        await interaction.response.send_message("please upload a valid .mp3 file")
+        return
     user=interaction.user
+    filepath = f"./{file.filename}"
+    await file.save(filepath)
     voice_channel=user.voice.channel
     if voice_channel!= None:
-        await interaction.response.send_message(f'Playing in {voice_channel.name}')
+        await interaction.response.send_message(f'playing in {voice_channel.name}')
         vc = await voice_channel.connect()
-        vc.play(discord.FFmpegPCMAudio('music.mp3'), after=lambda _: print('done'))
+        vc.play(discord.FFmpegPCMAudio(filepath), after=lambda _: print('done'))
         while vc.is_playing():
             await asyncio.sleep(1)
         await vc.disconnect()
     else:
-        await interaction.response.send_message('User is not in a channel.')
+        await interaction.response.send_message('user is not in a channel')
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
