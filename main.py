@@ -273,6 +273,14 @@ async def transfer(interaction: discord.Interaction, member: discord.Member, amo
     json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
     bank.xixobankf.truncate()
 
+@client.tree.command(name='eurtoxyn',description='calculate euros to xixoyens')
+async def eurtoxyn(interaction: discord.Interaction, amount: int):
+    if amount <= 0:
+        await interaction.response.send_message("please enter a positive amount")
+        return
+    await interaction.response.send_message(f"{amount} euros is equal to {amount / 0.015576923} xixoyens")
 
 client.setup_hook = setup_hook
 client.run(TOKEN)
+
+# ((1÷65)−0.005)×1.5 is the formula for euros to xixoyens btw
