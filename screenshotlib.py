@@ -2,6 +2,20 @@ import io
 import os
 from PIL import Image, ImageDraw, ImageFont
 
+def load_font(size=16):
+    font_paths = [
+        "NotoSans-Regular.ttf",
+        "NotoSansCJK-Regular.otf",
+        "Segoe UI Emoji.ttf",
+        "NotoColorEmoji.ttf",
+        "DejaVuSans.ttf",
+    ]
+    for font_name in font_paths:
+        try:
+            return ImageFont.truetype(font_name, size)
+        except IOError:
+            continue
+    return ImageFont.load_default()
 
 class ScreenshotLib:
     def __init__(self):
@@ -9,9 +23,9 @@ class ScreenshotLib:
             self.font = ImageFont.truetype("arial.ttf", 16)
         except IOError:
             self.font = ImageFont.load_default()
-        self.username_font = self.font
-        self.message_font = ImageFont.truetype("arial.ttf", 14) if os.path.exists("arial.ttf") else ImageFont.load_default()
-        self.avatar_size = 64
+        self.username_font = load_font(16)
+        self.message_font = load_font(14)
+        self.avatar_size = 32
 
     async def take_screenshot(self, last5messages, output="screenshot.png"):
         margin = 10
@@ -24,10 +38,9 @@ class ScreenshotLib:
             entry = {"author": message.author.display_name, "avatar": None, "lines": [], "images": []}
             if message.author.avatar:
                 try:
-                    avatar_bytes = await message.author.avatar.replace(size=128).read()
+                    avatar_bytes = await message.author.avatar.replace(size=256).read()
                     avatar_img = Image.open(io.BytesIO(avatar_bytes)).convert("RGBA")
                     avatar_img = avatar_img.resize((self.avatar_size, self.avatar_size), Image.LANCZOS)
-
                     entry["avatar"] = avatar_img
                 except Exception as e:
                     print(f"Could not load avatar for {message.author.display_name}: {e}")
@@ -68,6 +81,7 @@ class ScreenshotLib:
                 img.paste(im, (margin + self.avatar_size + 8, y))
                 y += im.height + padding
             y += padding
+        img.save(output)
 
     def _wrap_text(self, text, font, max_width):
         words = text.split()
@@ -83,3 +97,4 @@ class ScreenshotLib:
         if line:
             lines.append(line.strip())
         return lines
+        
