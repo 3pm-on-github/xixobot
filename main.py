@@ -100,16 +100,21 @@ class XixoBot(discord.Client):
                 if channel:
                     await channel.send('JACKPOT HIT!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                     print("jackpot hit!!!")
+            if self.msgcount % 1000 == 74:
+                channel = guild.get_channel(1409280302727303271)
+                if channel:
+                    await channel.send('hey its the number from R74n!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
+                    print("R74n!!!")
             if self.msgcount % 10000 == 4090:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     await channel.send('<@1008565108542287994> WAKE UP RTX WE GOT THE 4090!!!!!!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
-                    print("jackpot hit!!!")
+                    print("rtx 4090!!!")
             if self.msgcount % 10000 == 5090:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     await channel.send('rtx 5090 youre not welcome here get the fuck out, YOU\'RE GAY!!!!!!! (insert rtx doing middle finger emoji here) ' + str(self.msgcount) + " messages!")
-                    print("jackpot hit!!!")
+                    print("rtx 5090 bad bad")
             if self.msgcount % 100 == 0:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
