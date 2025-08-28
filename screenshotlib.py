@@ -31,57 +31,79 @@ class ScreenshotLib:
         margin = 10
         padding = 5
         line_height = 20
-        max_width = 600  
+        max_width = 600
+        scale = 4
+
         prepared = []
         total_height = margin
+
         for message in last5messages:
-            entry = {"author": message.author.display_name, "avatar": None, "lines": [], "images": []}
+            entry = {"author": message.author.display_name, "avatar": None, "lines": [], "images": [], "file_names": []}
             if message.author.avatar:
                 try:
-                    avatar_bytes = await message.author.avatar.replace(size=256).read()
+                    avatar_bytes = await message.author.avatar.replace(size=512).read()
                     avatar_img = Image.open(io.BytesIO(avatar_bytes)).convert("RGBA")
                     avatar_img = avatar_img.resize((self.avatar_size, self.avatar_size), Image.LANCZOS)
                     entry["avatar"] = avatar_img
                 except Exception as e:
-                    print(f"Could not load avatar for {message.author.display_name}: {e}")
+                    await message.channel.send(f"Error loading avatar for <@{message.author.id}>: {e}")
+
             lines = self._wrap_text(message.content, self.message_font, max_width - 60)
             entry["lines"] = lines
+
             for att in message.attachments:
                 try:
                     att_bytes = await att.read()
-                    im = Image.open(io.BytesIO(att_bytes)).convert("RGB")
-                    ratio = min(max_width / im.width, 300 / im.height)
-                    new_size = (int(im.width * ratio), int(im.height * ratio))
-                    im = im.resize(new_size, Image.LANCZOS)
-                    entry["images"].append(im)
+                    try:
+                        im = Image.open(io.BytesIO(att_bytes)).convert("RGB")
+                        ratio = min(max_width / im.width, 300 / im.height)
+                        new_size = (int(im.width * ratio), int(im.height * ratio))
+                        im = im.resize(new_size, Image.LANCZOS)
+                        entry["images"].append(im)
+                    except Exception:
+                        entry["file_names"].append(att.filename)
                 except Exception as e:
-                    print(f"Could not load attachment: {e}")
+                    await message.channel.send(f"Error reading attachment from <@{message.author.id}>: {e}")
 
             prepared.append(entry)
-            total_height += line_height
-            total_height += line_height * len(lines)
+            total_height += line_height + line_height * len(lines)
             for im in entry["images"]:
                 total_height += im.height + padding
+            total_height += len(entry["file_names"]) * line_height
             total_height += padding
-        img = Image.new("RGB", (max_width + 2 * margin, total_height + margin), color=(54, 57, 63))
+
+        img = Image.new("RGB", ((max_width + 2 * margin) * scale, (total_height + margin) * scale), color=(54, 57, 63))
         d = ImageDraw.Draw(img)
-        y = margin
+        y = margin * scale
+
         for entry in prepared:
             if entry["avatar"]:
-                mask = Image.new("L", (self.avatar_size, self.avatar_size), 0)
+                avatar_scaled = entry["avatar"].resize((self.avatar_size * scale, self.avatar_size * scale), Image.LANCZOS)
+                mask = Image.new("L", (self.avatar_size * scale, self.avatar_size * scale), 0)
                 mask_draw = ImageDraw.Draw(mask)
-                mask_draw.ellipse((0, 0, self.avatar_size, self.avatar_size), fill=255)
-                img.paste(entry["avatar"], (margin, y), mask)
-            d.text((margin + self.avatar_size + 8, y), entry["author"], font=self.username_font, fill=(114, 137, 218))
-            y += line_height
+                mask_draw.ellipse((0, 0, self.avatar_size * scale, self.avatar_size * scale), fill=255)
+                img.paste(avatar_scaled, (margin * scale, y), mask)
+
+            d.text(( (margin + self.avatar_size + 8) * scale, y), entry["author"], font=self.username_font.font_variant(size=16*scale), fill=(114, 137, 218))
+            y += line_height * scale
+
             for line in entry["lines"]:
-                d.text((margin + self.avatar_size + 8, y), line, font=self.message_font, fill=(220, 221, 222))
-                y += line_height
+                d.text(( (margin + self.avatar_size + 8) * scale, y), line, font=self.message_font.font_variant(size=14*scale), fill=(220, 221, 222))
+                y += line_height * scale
+
             for im in entry["images"]:
-                img.paste(im, (margin + self.avatar_size + 8, y))
-                y += im.height + padding
-            y += padding
+                im_scaled = im.resize((im.width * scale, im.height * scale), Image.LANCZOS)
+                img.paste(im_scaled, ((margin + self.avatar_size + 8) * scale, y))
+                y += im_scaled.height + padding * scale
+
+            for fname in entry["file_names"]:
+                d.text(( (margin + self.avatar_size + 8) * scale, y), f"[File: {fname}]", font=self.message_font.font_variant(size=14*scale), fill=(200, 200, 200))
+                y += line_height * scale
+
+            y += padding * scale
+
         img.save(output)
+
 
     def _wrap_text(self, text, font, max_width):
         words = text.split()
