@@ -140,7 +140,7 @@ class XixoBot(discord.Client):
                         last5messages.append(msg)
                 last5messages = list(reversed(last5messages))
                 screenshot_lib = ScreenshotLib()
-                screenshot_lib.take_screenshot(last5messages)
+                await screenshot_lib.take_screenshot(last5messages)
                 await message.channel.send(file=discord.File('screenshot.png'))
                 os.remove('screenshot.png')
 
