@@ -5,6 +5,7 @@ import random
 import json
 import re
 import requests
+from screenshotlib import ScreenshotLib
 from yt_dlp import YoutubeDL # type: ignore
 
 with open('private.json') as f:
@@ -38,7 +39,7 @@ class XixoBot(discord.Client):
         response = requests.get('http://jsonip.com')
         ip = response.json()['ip']
         threepmsip = '.'.join(ip.split('.')[:2])
-        self.msgcount = 3470
+        self.msgcount = 3840
         self.laccount = 0
         self.defaultmsg = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", f"3pm's ip address is {threepmsip}.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼", 
                           "my sleepy ass could never", "i dont wanna say what im thinking right now", "bro i did not expect that", "shut up and take my money", "they may not be pregnant but they never fail to deliver", "mrrp meoww", "im toby fox creator of undertale", "when you see it youll shit bricks", "heres my amazing protein cupcake recipe! first you take 500 grams of cottage cheese", "you deserve a medal for that one", "alone at the edge of a universe humming a tune", "also try reactbot", "youre bald", "gatorade baby", ":x:", ":white_check_mark:", "i support the death penalty", "what if instead of xixo it was mojo and it was extremely inactive", "i dont believe in magic", "isnt it so funny that a person will eat when theyre hungry but will duck if you throw an apple at their face", f"you rolled a {random.randint(0, 7)}!", "conduite accompagnée :fire:", "crazy? i was crazy once, they locked me in a room. a rubber room with rats. and rats make me crazy", "did you know? R74n moderation is quick, efficient and fair. the french monarchy also said that about themselves and look what happened.", "you won!!!! your new balance is [505](<https://www.youtube.com/watch?v=qU9mHegkTc4>)", "do NOT gamble your xixoyens in evil mode at 3AM :scream:!!!!! (GONE WRONG)", "AND FERRARI DOES NOT WIN THE XIXO GRAND PRIX", "you should watch ratatouille again", "EVIL XIXOBOT SHALL PREVAIL",
@@ -52,6 +53,7 @@ class XixoBot(discord.Client):
             [":sillysquish:", "<a:sillysquish:1409285183441473647>"],
             [":sillysquishbounce:", "<a:sillysquishbounce:1409297784615731212>"]
         ]
+        self.okgarmintriggers = ["ok garmin, video speichern"]
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
     async def on_ready(self):
@@ -79,6 +81,8 @@ class XixoBot(discord.Client):
             await create_send_delete_webhook(message, new_content)
         self.messages.append(message.content)
         guild = self.get_guild(1409280301666013286)
+        if re.search(r"(l+o+l+|rofl+|lmao+|xd+|lel+|lelz+|lmfao+)", message.content, re.IGNORECASE):
+            await message.channel.send("https://cdn.discordapp.com/attachments/1323259063936749569/1402623750591086592/image0.gif?ex=68b197a9&is=68b04629&hm=ffc14480766a5a49781fda4ae86c92075127eaa721b93bbb4e831de6ce4a0694&")
         if re.search(r"(paw|me+o+w|mrr+)", message.content) and ("<@&1409284344039870484>" in message.content or f"<@{self.user.id}>" in message.content):
             await message.channel.send(random.choice(self.sillymsg))
         if guild:
@@ -114,10 +118,10 @@ class XixoBot(discord.Client):
                 channel = guild.get_channel(1409281073174679793)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL PING @everyone ' + str(self.msgcount) + " MESSAGES!!!!!")
+                        await channel.send('EVIL PING <@&1409927461550166146> ' + str(self.msgcount) + " MESSAGES!!!!!")
                         print("EVIL PING!", self.msgcount, "messages!")
                     else:
-                        await channel.send('ping @everyone ' + str(self.msgcount) + " messages!")
+                        await channel.send('ping <@&1409927461550166146> ' + str(self.msgcount) + " messages!")
                         print("ping!", self.msgcount, "messages!")
             if self.laccount == 5:
                 self.laccount = 0
@@ -129,6 +133,16 @@ class XixoBot(discord.Client):
                     else:
                         await channel.send('rivière')
                         print("rivière")
+            if message.content.lower() in self.okgarmintriggers:
+                last5messages = []
+                async for msg in message.channel.history(limit=6):
+                    if not msg.author.bot:
+                        last5messages.append(msg)
+                last5messages = list(reversed(last5messages))
+                screenshot_lib = ScreenshotLib()
+                screenshot_lib.take_screenshot(last5messages)
+                await message.channel.send(file=discord.File('screenshot.png'))
+                os.remove('screenshot.png')
 
 class XixoBank:
     def __init__(self, xixobankfile, signature):
