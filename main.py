@@ -53,7 +53,7 @@ class XixoBot(discord.Client):
             [":sillysquish:", "<a:sillysquish:1409285183441473647>"],
             [":sillysquishbounce:", "<a:sillysquishbounce:1409297784615731212>"]
         ]
-        self.okgarmintriggers = ["ok garmin, video speichern"]
+        self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video"]
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
     async def on_ready(self):
