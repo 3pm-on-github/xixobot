@@ -52,7 +52,7 @@ class XixoBot(discord.Client):
             [":haiii:", "<:haiii:1409289771825762365>"],
             [":sillysquish:", "<a:sillysquish:1409285183441473647>"],
             [":sillysquishbounce:", "<a:sillysquishbounce:1409297784615731212>"],
-            [":absolutesilly:", "<a:absolutesilly:1410925205928415263>"]
+            [":absolutesilly:", "<a:absolutesilly:1410925640739454986>"]
         ]
         self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
         self.evilmode = False
@@ -103,10 +103,10 @@ class XixoBot(discord.Client):
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     if self.evilmode:
-                        await channel.send('EVIL ABSOLUTE SILLY!!!! <a:absolutesilly:1410925205928415263> ' + str(self.msgcount) + " MESSAGES!!!!")
+                        await channel.send('EVIL ABSOLUTE SILLY!!!! <a:absolutesilly:1410925640739454986> ' + str(self.msgcount) + " MESSAGES!!!!")
                         print("EVIL ABSOLUTE SILLY!!!!")
                     else:
-                        await channel.send('ABSOLUTE SILLY!! <a:absolutesilly:1410925205928415263> ' + str(self.msgcount) + " messages!")
+                        await channel.send('ABSOLUTE SILLY!! <a:absolutesilly:1410925640739454986> ' + str(self.msgcount) + " messages!")
                         print("absolute silly!")
             if self.msgcount % 1000 == 0:
                 channel = guild.get_channel(1409280302727303271)
