@@ -46,7 +46,7 @@ class ScreenshotLib:
                     avatar_img = avatar_img.resize((self.avatar_size, self.avatar_size), Image.LANCZOS)
                     entry["avatar"] = avatar_img
                 except Exception as e:
-                    await message.channel.send(f"Error loading avatar for <@{message.author.id}>: {e}")
+                    await message.channel.send(f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!")
 
             lines = self._wrap_text(message.content, self.message_font, max_width - 60)
             entry["lines"] = lines
@@ -63,7 +63,7 @@ class ScreenshotLib:
                     except Exception:
                         entry["file_names"].append(att.filename)
                 except Exception as e:
-                    await message.channel.send(f"Error reading attachment from <@{message.author.id}>: {e}")
+                    await message.channel.send(f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!")
 
             prepared.append(entry)
             total_height += line_height + line_height * len(lines)
