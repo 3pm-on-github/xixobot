@@ -39,7 +39,7 @@ class XixoBot(discord.Client):
         response = requests.get('http://jsonip.com')
         ip = response.json()['ip']
         threepmsip = '.'.join(ip.split('.')[:2])
-        self.msgcount = 4110
+        self.msgcount = 4300
         self.laccount = 0
         self.defaultmsg = ["so true", "peak", "would YOU do this for 40 yen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", f"3pm's ip address is {threepmsip}.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼", 
                           "my sleepy ass could never", "i dont wanna say what im thinking right now", "bro i did not expect that", "shut up and take my money", "they may not be pregnant but they never fail to deliver", "mrrp meoww", "im toby fox creator of undertale", "when you see it youll shit bricks", "heres my amazing protein cupcake recipe! first you take 500 grams of cottage cheese", "you deserve a medal for that one", "alone at the edge of a universe humming a tune", "also try reactbot", "youre bald", "gatorade baby", ":x:", ":white_check_mark:", "i support the death penalty", "what if instead of xixo it was mojo and it was extremely inactive", "i dont believe in magic", "isnt it so funny that a person will eat when theyre hungry but will duck if you throw an apple at their face", f"you rolled a {random.randint(0, 7)}!", "conduite accompagnée :fire:", "crazy? i was crazy once, they locked me in a room. a rubber room with rats. and rats make me crazy", "did you know? R74n moderation is quick, efficient and fair. the french monarchy also said that about themselves and look what happened.", "you won!!!! your new balance is [505](<https://www.youtube.com/watch?v=qU9mHegkTc4>)", "do NOT gamble your xixoyens in evil mode at 3AM :scream:!!!!! (GONE WRONG)", "AND FERRARI DOES NOT WIN THE XIXO GRAND PRIX", "you should watch ratatouille again", "EVIL XIXOBOT SHALL PREVAIL",
@@ -53,7 +53,7 @@ class XixoBot(discord.Client):
             [":sillysquish:", "<a:sillysquish:1409285183441473647>"],
             [":sillysquishbounce:", "<a:sillysquishbounce:1409297784615731212>"]
         ]
-        self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save the video"]
+        self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
     async def on_ready(self):
@@ -81,6 +81,18 @@ class XixoBot(discord.Client):
             await create_send_delete_webhook(message, new_content)
         self.messages.append(message.content)
         guild = self.get_guild(1409280301666013286)
+        if re.search(r"(ev+i+l)", message.content, re.IGNORECASE) and "no more" in message.content and not self.evilmode:
+            await message.channel.send("awww no more evil :(")
+            await message.guild.me.edit(nick="xixobot")
+            self.evilmode = False
+            with open("./xixobot.jpg", "rb") as image:
+                await self.user.edit(avatar=image.read())
+        elif re.search(r"(ev+i+l)", message.content, re.IGNORECASE) and "mode" in message.content and not self.evilmode:
+            await message.channel.send("did somebody say.. evil??? EVIL MODE!!!!!!!!!!!!")
+            await message.guild.me.edit(nick="EVIL XIXOBOT!!!!!")
+            self.evilmode = True
+            with open("./evil xixobot.png", "rb") as image:
+                await self.user.edit(avatar=image.read())
         if re.search(r"(l+o+l+|rofl+|lmao+|xd+|lel+|lelz+|lmfao+)", message.content, re.IGNORECASE):
             await message.channel.send("https://cdn.discordapp.com/attachments/1323259063936749569/1402623750591086592/image0.gif?ex=68b197a9&is=68b04629&hm=ffc14480766a5a49781fda4ae86c92075127eaa721b93bbb4e831de6ce4a0694&")
         if re.search(r"(paw|me+o+w|mrr+)", message.content) and ("<@&1409284344039870484>" in message.content or f"<@{self.user.id}>" in message.content):
@@ -100,7 +112,7 @@ class XixoBot(discord.Client):
                 if channel:
                     await channel.send('JACKPOT HIT!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                     print("jackpot hit!!!")
-            if self.msgcount % 1000 == 74:
+            if self.msgcount % 100 == 74:
                 channel = guild.get_channel(1409280302727303271)
                 if channel:
                     await channel.send('hey its the number from R74n!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
