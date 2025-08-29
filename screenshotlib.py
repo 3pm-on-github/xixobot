@@ -38,7 +38,19 @@ class ScreenshotLib:
         total_height = margin
 
         for message in last5messages:
-            entry = {"author": message.author.display_name, "avatar": None, "lines": [], "images": [], "file_names": []}
+            member = message.guild.get_member(message.author.id)
+
+            entry = {
+                "author": message.author.display_name,
+                "avatar": None,
+                "lines": [],
+                "images": [],
+                "file_names": [],
+                "role_color": (114, 137, 218)
+            }
+
+            entry["role_color"] = member.color.to_rgb()
+
             if message.author.avatar:
                 try:
                     avatar_bytes = await message.author.avatar.replace(size=512).read()
@@ -46,7 +58,9 @@ class ScreenshotLib:
                     avatar_img = avatar_img.resize((self.avatar_size, self.avatar_size), Image.LANCZOS)
                     entry["avatar"] = avatar_img
                 except Exception as e:
-                    await message.channel.send(f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!")
+                    await message.channel.send(
+                        f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!"
+                    )
 
             lines = self._wrap_text(message.content, self.message_font, max_width - 60)
             entry["lines"] = lines
@@ -63,7 +77,9 @@ class ScreenshotLib:
                     except Exception:
                         entry["file_names"].append(att.filename)
                 except Exception as e:
-                    await message.channel.send(f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!")
+                    await message.channel.send(
+                        f"ah you fucking piece of shit <@{message.author.id}> YOU COMMITTED A {e}!!!!!!!!!!"
+                    )
 
             prepared.append(entry)
             total_height += line_height + line_height * len(lines)
@@ -72,23 +88,41 @@ class ScreenshotLib:
             total_height += len(entry["file_names"]) * line_height
             total_height += padding
 
-        img = Image.new("RGB", ((max_width + 2 * margin) * scale, (total_height + margin) * scale), color=(54, 57, 63))
+        img = Image.new(
+            "RGB",
+            ((max_width + 2 * margin) * scale, (total_height + margin) * scale),
+            color=(54, 57, 63)
+        )
         d = ImageDraw.Draw(img)
         y = margin * scale
 
         for entry in prepared:
             if entry["avatar"]:
-                avatar_scaled = entry["avatar"].resize((self.avatar_size * scale, self.avatar_size * scale), Image.LANCZOS)
+                avatar_scaled = entry["avatar"].resize(
+                    (self.avatar_size * scale, self.avatar_size * scale), Image.LANCZOS
+                )
                 mask = Image.new("L", (self.avatar_size * scale, self.avatar_size * scale), 0)
                 mask_draw = ImageDraw.Draw(mask)
-                mask_draw.ellipse((0, 0, self.avatar_size * scale, self.avatar_size * scale), fill=255)
+                mask_draw.ellipse(
+                    (0, 0, self.avatar_size * scale, self.avatar_size * scale), fill=255
+                )
                 img.paste(avatar_scaled, (margin * scale, y), mask)
 
-            d.text(( (margin + self.avatar_size + 8) * scale, y), entry["author"], font=self.username_font.font_variant(size=16*scale), fill=(114, 137, 218))
+            d.text(
+                ((margin + self.avatar_size + 8) * scale, y),
+                entry["author"],
+                font=self.username_font.font_variant(size=16 * scale),
+                fill=entry["role_color"]
+            )
             y += line_height * scale
 
             for line in entry["lines"]:
-                d.text(( (margin + self.avatar_size + 8) * scale, y), line, font=self.message_font.font_variant(size=14*scale), fill=(220, 221, 222))
+                d.text(
+                    ((margin + self.avatar_size + 8) * scale, y),
+                    line,
+                    font=self.message_font.font_variant(size=14 * scale),
+                    fill=(220, 221, 222)
+                )
                 y += line_height * scale
 
             for im in entry["images"]:
@@ -97,7 +131,12 @@ class ScreenshotLib:
                 y += im_scaled.height + padding * scale
 
             for fname in entry["file_names"]:
-                d.text(( (margin + self.avatar_size + 8) * scale, y), f"[File: {fname}]", font=self.message_font.font_variant(size=14*scale), fill=(200, 200, 200))
+                d.text(
+                    ((margin + self.avatar_size + 8) * scale, y),
+                    f"[File: {fname}]",
+                    font=self.message_font.font_variant(size=14 * scale),
+                    fill=(200, 200, 200)
+                )
                 y += line_height * scale
 
             y += padding * scale
