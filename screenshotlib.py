@@ -1,5 +1,4 @@
 import io
-import os
 from PIL import Image, ImageDraw, ImageFont
 
 def load_font(size=16):
@@ -39,7 +38,6 @@ class ScreenshotLib:
 
         for message in last5messages:
             member = message.guild.get_member(message.author.id)
-
             entry = {
                 "author": message.author.display_name,
                 "avatar": None,
@@ -49,7 +47,10 @@ class ScreenshotLib:
                 "role_color": (114, 137, 218)
             }
 
-            entry["role_color"] = member.color.to_rgb()
+            try:
+                entry["role_color"] = member.color.to_rgb()
+            except Exception:
+                pass
 
             if message.author.avatar:
                 try:
@@ -69,7 +70,7 @@ class ScreenshotLib:
                 try:
                     att_bytes = await att.read()
                     try:
-                        im = Image.open(io.BytesIO(att_bytes)).convert("RGB")
+                        im = Image.open(io.BytesIO(att_bytes)).convert("RGBA")
                         ratio = min(max_width / im.width, 300 / im.height)
                         new_size = (int(im.width * ratio), int(im.height * ratio))
                         im = im.resize(new_size, Image.LANCZOS)
@@ -89,9 +90,9 @@ class ScreenshotLib:
             total_height += padding
 
         img = Image.new(
-            "RGB",
+            "RGBA",
             ((max_width + 2 * margin) * scale, (total_height + margin) * scale),
-            color=(54, 57, 63)
+            color=(54, 57, 63, 255)
         )
         d = ImageDraw.Draw(img)
         y = margin * scale
@@ -106,43 +107,45 @@ class ScreenshotLib:
                 mask_draw.ellipse(
                     (0, 0, self.avatar_size * scale, self.avatar_size * scale), fill=255
                 )
-                img.paste(avatar_scaled, (margin * scale, y), mask)
+                avatar_scaled.putalpha(mask)
+                img.paste(avatar_scaled, (margin * scale, y), avatar_scaled)
 
+            username_font = load_font(16 * scale)
             d.text(
                 ((margin + self.avatar_size + 8) * scale, y),
                 entry["author"],
-                font=self.username_font.font_variant(size=16 * scale),
+                font=username_font,
                 fill=entry["role_color"]
             )
             y += line_height * scale
 
+            message_font = load_font(14 * scale)
             for line in entry["lines"]:
                 d.text(
                     ((margin + self.avatar_size + 8) * scale, y),
                     line,
-                    font=self.message_font.font_variant(size=14 * scale),
+                    font=message_font,
                     fill=(220, 221, 222)
                 )
                 y += line_height * scale
 
             for im in entry["images"]:
                 im_scaled = im.resize((im.width * scale, im.height * scale), Image.LANCZOS)
-                img.paste(im_scaled, ((margin + self.avatar_size + 8) * scale, y))
+                img.paste(im_scaled, ((margin + self.avatar_size + 8) * scale, y), im_scaled)
                 y += im_scaled.height + padding * scale
 
             for fname in entry["file_names"]:
                 d.text(
                     ((margin + self.avatar_size + 8) * scale, y),
                     f"[File: {fname}]",
-                    font=self.message_font.font_variant(size=14 * scale),
+                    font=self.message_font,
                     fill=(200, 200, 200)
                 )
                 y += line_height * scale
 
             y += padding * scale
 
-        img.save(output)
-
+        img.save(output, "PNG")
 
     def _wrap_text(self, text, font, max_width):
         words = text.split()
@@ -158,4 +161,3 @@ class ScreenshotLib:
         if line:
             lines.append(line.strip())
         return lines
-        
