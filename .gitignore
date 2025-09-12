@@ -1,0 +1,6 @@
+venv
+xixobank.json
+private.json
+*.mp3
+__pycache__
+what.py
