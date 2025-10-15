@@ -136,11 +136,6 @@ class XixoBot(discord.Client):
                 if channel:
                     await channel.send('JACKPOT HIT!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                     print("jackpot hit!!!")
-            if self.msgcount % 100 == 74:
-                channel = guild.get_channel(1409281073174679793)
-                if channel:
-                    await channel.send('hey its the number from R74n!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
-                    print("R74n!!!")
             if self.msgcount % 10000 == 4090:
                 channel = guild.get_channel(1409281073174679793)
                 if channel:
