@@ -1,18 +1,16 @@
-import discord
-import os
-import asyncio
-import random
-import json
-import re
-import requests
-from screenshotlib import ScreenshotLib
-from yt_dlp import YoutubeDL # type: ignore
-from what import huh, umm
+# xixobot v0.1.31 by 3pm
+# copyright CC-BY-NC 4.0
+# more info in LICENSE.md
 
-with open('private.json') as f:
-    data = json.load(f)
-    TOKEN = data['token']
-    XIXOBANKSIGNATURE = data['xixobanksig']
+import discord #type: ignore
+import asyncio, os, random, json, re
+import requests #type: ignore
+from screenshotlib import ScreenshotLib
+from yt_dlp import YoutubeDL #type: ignore
+from data import Data
+from xixobank import XixoBank
+
+VERSION = "0.1.31"
 
 async def download_audio(url):
     ydl_opts = {
@@ -34,22 +32,21 @@ async def create_send_delete_webhook(message, newcontent):
     await webhook.send(content=newcontent, username=message.author.display_name, avatar_url=message.author.avatar.url if message.author.avatar else message.author.default_avatar.url)
     await webhook.delete()
 
+# xixobot class
 class XixoBot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         response = requests.get('http://jsonip.com')
         ip = response.json()['ip']
         threepmsip = '.'.join(ip.split('.')[:2])
-        self.msgcount = 21620
         self.laccount = 0
         self.defaultmsg = ["so true", "peak", "would YOU do this for 40 xixoyen?", "https://cdn.discordapp.com/attachments/1251355055139852309/1385089077392445551/togif.gif", "and alexander wept, seeing as he had no more worlds to conquer", "eat the rich", "they turned xixo woke!!", "*hic*", "trans rights btw", f"3pm's ip address is {threepmsip}.-", "this genuenily seagulls", "this would kill a victorian child", "its beautiful", "i do my best", "86 mahi mahi am i right", "these birds are pissing me off", "im the original                  xixobot", "is that pikachu?", "did u guys hear trump died", "you can leave me a tip right on this laptop!", "bro really wants us to think theyre funny", "brian look out noo", "did you know 90% of my viewers arent subscribed", "no", "yeah", "old", "say cheese", "you can say that again", "should i go visit them? they live 5 mins away from my shoot,", "the glorious german flag: :flag_ge:", "Look ! this man is going for a world record. 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, But Watch out if this guy misses he'll die on the spot. Or he will hurt himself very, very badly. And ALL THIS JUST FOR YOU. Just for your EYES. Just to make this video GOES VIRAL. Will he do it?! WILL HE SUCCEED? That's the question we are asking ourself right now. Look at him ! he's flying he's gliding his flying like a rocket. INCREDIBLE ! This man deserves respect ! You should give him strenght in the comments Check him out ! After nearly breaking his neck, he decided to stop. 😼", 
                           "my sleepy ass could never", "i dont wanna say what im thinking right now", "bro i did not expect that", "shut up and take my money", "they may not be pregnant but they never fail to deliver", "mrrp meoww", "im toby fox creator of undertale", "when you see it youll shit bricks", "heres my amazing protein cupcake recipe! first you take 500 grams of cottage cheese", "you deserve a medal for that one", "alone at the edge of a universe humming a tune", "also try reactbot", "youre bald", "gatorade baby", ":x:", ":white_check_mark:", "i support the death penalty", "what if instead of xixo it was mojo and it was extremely inactive", "i dont believe in magic", "isnt it so funny that a person will eat when theyre hungry but will duck if you throw an apple at their face", f"you rolled a {random.randint(0, 7)}!", "conduite accompagnée :fire:", "crazy? i was crazy once, they locked me in a room. a rubber room with rats. and rats make me crazy", "did you know? R74n moderation is quick, efficient and fair. the french monarchy also said that about themselves and look what happened.", "you won!!!! your new balance is [505](<https://www.youtube.com/watch?v=qU9mHegkTc4>)", "do NOT gamble your xixoyens in evil mode at 3AM :scream:!!!!! (GONE WRONG)", "AND FERRARI DOES NOT WIN THE XIXO GRAND PRIX", "you should watch ratatouille again", "EVIL XIXOBOT SHALL PREVAIL",
                            "is that the guy from fortnite?", "im xixobot!", "wake up", "uhuh", "i remember that one time when a fellow sapling did not capitalize the R in R74n and ryan ordered the mods to execute them with the firing squad", "thats actually really funny", "i burned 3 houses in alabama in monday november 13th at 7 o clock", "*fucking explodes*", "you guys ever try natural ketchup", "as an ai language model i am unable to react to this", "im gonna need a mini xixobot for this one! \n-# this sucks!",
                            "we go together", "you never know...", "its xixoing time!", "i hunger. i feast.", "is this an arg?", "im bored. can we watch family guy funnies?", "well thats terrifying", "ня", "the goat", "im cooler than nmarkov", "ok garmin, video spreichern", "meeeoww :3", "just got off the phone with pythagoras... new theorem in the works", "you owe me 3 bucks for this response", "is there a miku cover of this?", "as satan, i confirm this is a hellsite", "uhh ill have the egg mcmuffin", "humans arent supposed to be doing this", 'look up "cute foxes :33333"', "yup, thats a cavity", "I can't stop drinking oil. I can't stop drinking oil. I just can't stop! I can't stop drinking crude oil. You know, the black stuff? That comes in barrels? I can't stop drinking it. I just can't! It's tantalizing! It's addicting! It is... a delicacy. I love it. I can't stop drinking oil. Crude oil! I can't stop guzzling it Gulping it down! I can't stop drinking crude oi", "sur le fondement de l'article 49 alinéa 3 de la construction, j'engage la responsabilité de mon gouvernement sur le projet de loi de finances pour l'année 2025. la séance est levée."
                           ]
-        self.defaultmsg += umm()
         self.sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
-        self.messages = ["HEEELP HELP MEEE HEEEEEEEEEELP"]
+        self.messages, self.messagesuserid, self.words, self.wordsuserid, self.msgcount = data.getData()
         self.emojimd = [
             [":haiii:", "<:haiii:1409289771825762365>"],
             [":sillysquish:", "<a:sillysquish:1409285183441473647>"],
@@ -59,6 +56,7 @@ class XixoBot(discord.Client):
         self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
         self.evilmode = True
         self.tree = discord.app_commands.CommandTree(self)
+
     async def on_ready(self):
         print(f'Logged in as {self.user}')
         guild = self.get_guild(1409280301666013286)
@@ -86,8 +84,12 @@ class XixoBot(discord.Client):
         if replaced:
             await create_send_delete_webhook(message, new_content)
         self.messages.append(message.content)
+        self.messagesuserid.append(message.author.id)
+        for word in message.content.split(" "):
+            self.words.append(word)
+            self.wordsuserid.append(message.author.id)
+        data.saveData(self.messages, self.messagesuserid, self.words, self.wordsuserid, self.msgcount)
         guild = self.get_guild(1409280301666013286)
-        await huh(message, guild)
         if message.content == "no more":
             await message.channel.send("we're keeping xixobot evil till no more spooky month")
             #await message.channel.send("awww no more evil :(")
@@ -103,8 +105,6 @@ class XixoBot(discord.Client):
             self.evilmode = True
             with open("./evil xixobot.png", "rb") as image:
                 await self.user.edit(avatar=image.read())
-        #if re.search(r"(l+o+l+|rofl+|lmao+|xd+|lel+|lelz+|lmfao+)", message.content, re.IGNORECASE):
-        #    await message.channel.send("https://cdn.discordapp.com/attachments/1323259063936749569/1402623750591086592/image0.gif?ex=68b197a9&is=68b04629&hm=ffc14480766a5a49781fda4ae86c92075127eaa721b93bbb4e831de6ce4a0694&")
         if re.search(r"(paw|me+o+w|mrr+)", message.content) and ("<@&1409284344039870484>" in message.content or f"<@{self.user.id}>" in message.content):
             await message.channel.send(random.choice(self.sillymsg))
         if guild:
@@ -185,18 +185,6 @@ class XixoBot(discord.Client):
                 await message.channel.send(file=discord.File('screenshot.png'))
                 os.remove('screenshot.png')
 
-class XixoBank:
-    def __init__(self, xixobankfile, signature):
-        self.xixobankf = open(xixobankfile, "r+")
-        self.xixobankdata = json.load(self.xixobankf)
-        if self.xixobankdata["signature"] != signature:
-            raise ValueError("Invalid Signature in xixobank file")
-
-    def checkBalance(self, userid):
-        if str(userid) in self.xixobankdata["balances"]:
-            return self.xixobankdata["balances"][str(userid)]
-        else:
-            return "oopsie woopsie! looks like you don't have an account on the xixobank!"
 
 intents = discord.Intents.default()
 intents.guilds = True
@@ -204,8 +192,9 @@ intents.messages = True
 intents.members = True
 intents.message_content = True
 
+data = Data("data.json")
 client = XixoBot(intents=intents)
-bank = XixoBank("xixobank.json", XIXOBANKSIGNATURE)
+bank = XixoBank("xixobank.json", data.getXixoBankSignature())
 
 async def setup_hook():
     await client.tree.sync()
@@ -229,6 +218,27 @@ async def randomstr_command(interaction: discord.Interaction):
         await interaction.response.send_message(randommessage)
     else:
         await interaction.response.send_message("no messages have been recorded yet!")
+
+@client.tree.command(name="randomwordstr", description="sends a random string of words sent in xixo")
+async def randomwordstr_command(interaction: discord.Interaction, wordcount:int):
+    string = []
+    for _ in range(wordcount):
+        string.append(random.choice(client.words)+" ")
+    await interaction.response.send_message(f"generated string: `{"".join(string)}`")
+
+@client.tree.command(name="removemydata", description="removes your data from xixobot")
+async def removemydata_command(interaction: discord.Interaction):
+    i=-1
+    for userid in client.messagesuserid:
+        i+=1
+        if userid == interaction.user.id:
+            del client.messages[i]
+    i=-1
+    for userid in client.wordsuserid:
+        i+=1
+        if userid == interaction.user.id:
+            del client.words[i]
+    await interaction.response.send_message("your data has been removed from xixobot.")
 
 @client.tree.command(name="randommsg", description="sends a random message from chat")
 async def randommsg_command(interaction: discord.Interaction):
@@ -401,6 +411,22 @@ async def xyntoeur(interaction: discord.Interaction, amount: int):
         return
     await interaction.response.send_message(f"{amount} xixoyens is equal to {round(amount * 0.015576923, 2)} euros")
 
+@client.tree.command(name='info',description='more info about xixobot')
+async def xyntoeur(interaction: discord.Interaction):
+    await interaction.response.send_message(f"""xixobot v{VERSION} is a discord bot made for the xixo discord server.
+xixobot collects the following data about you:
+- your discord avatar
+- your server name
+- your role color
+- your user id (xixobank only)
+- messages you sent
+this data is only used for commands such as:
+- every xixobank command
+- /randommsg and /randomwordstr
+- \"ok garmin, save video\"
+you can request a data removal with the /removemydata command.
+xixobot is not intended for use outside of xixo.""")
+
 client.setup_hook = setup_hook
-client.run(TOKEN)
+client.run(data.getToken())
 # ((1÷65)−0.005)×1.5 is the formula for euros to xixoyens btw
