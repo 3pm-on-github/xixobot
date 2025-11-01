@@ -199,26 +199,11 @@ async def balance_command(interaction: discord.Interaction):
     embed.add_field(name="Balance", value=balance, inline=True)
     await interaction.response.send_message(embed=embed)
 
-@client.tree.command(name="intriguing command", description="???")
+@client.tree.command(name="intriguing_command", description="???")
 async def intriguing_command(interaction: discord.Interaction):
-        # initiates the embed
-        # title="" is the title for the embed
-        # color="" is the color of the embed (in this case, blue)
-        embed = discord.Embed(title="the only thing worse than unlimited bacon but no games", color="#b9d0ff", description="put your guesses in the comments below")
-
-        # sets an author for the embed
-        # name="" is the name of the author (in this case, the user's username)
-        # icon_url="" is the url of the author's icon (in this case, the user's avatar if available, otherwise the default avatar)
-        embed.set_author(name="Prompt", icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
-
-        # adds a field to the embed
-        # name="" is the name of the field
-        # value="" is the value of the field
-        # i have no idea what inline=True does but keep it
-        # embed.add_field(name="field", value="hiii", inline=True)
-
-        # sends the embed
-        await interaction.response.send_message(embed=embed)
+    embed = discord.Embed(title="the only thing worse than unlimited bacon but no games", color=int("b9d0ff", 16), description="put your guesses in the comments below")
+    embed.set_author(name="Prompt", icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
+    await interaction.response.send_message(embed=embed)
 
 @client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
 async def randomstr_command(interaction: discord.Interaction):
