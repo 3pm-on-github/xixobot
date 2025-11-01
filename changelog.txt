@@ -1,3 +1,6 @@
+xixobot v0.1.32:
+    + surprise command
+
 xixobot v0.1.31:
     ~ autosave data
     ~ split classes
