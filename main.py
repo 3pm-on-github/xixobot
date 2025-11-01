@@ -3,6 +3,7 @@
 # more info in LICENSE.md
 
 import discord #type: ignore
+from discord import app_commands
 import asyncio, os, random, json, re, time
 import requests #type: ignore
 from screenshotlib import ScreenshotLib
@@ -32,6 +33,21 @@ async def create_send_delete_webhook(message, newcontent):
     await webhook.send(content=newcontent, username=message.author.display_name, avatar_url=message.author.avatar.url if message.author.avatar else message.author.default_avatar.url)
     await webhook.delete()
 
+# intriguing command
+class intriguing(app_commands.Group):
+    def __init__(self):
+        super().__init__(name="intriguing", description="so intriguing..")
+
+    @app_commands.command(name="command", description="???")
+    async def intriguing_command(self, interaction: discord.Interaction):
+        embed = discord.Embed(
+            title="the only thing worse than unlimited bacon but no games",
+            color=int("b9d0ff", 16),
+            description="put your guesses in the comments below"
+        )
+        embed.set_author(name="Prompt")
+        await interaction.response.send_message(embed=embed)
+
 # xixobot class
 class XixoBot(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -57,6 +73,7 @@ class XixoBot(discord.Client):
         self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
+        self.tree.add_command(intriguing())
 
     async def on_ready(self):
         print(f'Logged in as {self.user}')
@@ -199,12 +216,6 @@ async def balance_command(interaction: discord.Interaction):
     embed.add_field(name="Balance", value=balance, inline=True)
     await interaction.response.send_message(embed=embed)
 
-@client.tree.command(name="intriguing_command", description="???")
-async def intriguing_command(interaction: discord.Interaction):
-    embed = discord.Embed(title="the only thing worse than unlimited bacon but no games", color=int("b9d0ff", 16), description="put your guesses in the comments below")
-    embed.set_author(name="Prompt", icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
-    await interaction.response.send_message(embed=embed)
-
 @client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
 async def randomstr_command(interaction: discord.Interaction):
     if client.messages:
@@ -212,7 +223,6 @@ async def randomstr_command(interaction: discord.Interaction):
         await interaction.response.send_message(randommessage)
     else:
         await interaction.response.send_message("no messages have been recorded yet!")
-        
 
 @client.tree.command(name="randomwordstr", description="sends a random string of words sent in xixo")
 async def randomwordstr_command(interaction: discord.Interaction, wordcount:int):
@@ -409,8 +419,7 @@ async def xyntoeur(interaction: discord.Interaction, amount: int):
 @client.tree.command(name='surprise',description="a surprise")
 async def flashbang(interaction: discord.Interaction):
     await interaction.response.send_message("THINK FAST CHUCKLENUTS")
-    time.sleep(1)
-    await interaction.edit_original_response(attachments=[discord.File("flashbang.png")])
+    await interaction.edit_original_response(content="", attachments=[discord.File("flashbang.png")])
 
 @client.tree.command(name='info',description='more info about xixobot')
 async def xyntoeur(interaction: discord.Interaction):
