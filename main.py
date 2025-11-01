@@ -200,7 +200,7 @@ async def balance_command(interaction: discord.Interaction):
     await interaction.response.send_message(embed=embed)
 
 @client.tree.command(name="intriguing command", description="???")
-async def randomstr_command(interaction: discord.Interaction):
+async def intriguing_command(interaction: discord.Interaction):
         # initiates the embed
         # title="" is the title for the embed
         # color="" is the color of the embed (in this case, blue)
