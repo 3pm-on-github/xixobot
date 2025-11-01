@@ -1,5 +1,5 @@
 venv
 xixobank.json
-private.json
+data.json
 *.mp3
 __pycache__
