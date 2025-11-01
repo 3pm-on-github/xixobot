@@ -1,16 +1,16 @@
-# xixobot v0.1.31 by 3pm
+# xixobot v0.1.32 by 3pm
 # copyright CC-BY-NC 4.0
 # more info in LICENSE.md
 
 import discord #type: ignore
-import asyncio, os, random, json, re
+import asyncio, os, random, json, re, time
 import requests #type: ignore
 from screenshotlib import ScreenshotLib
 from yt_dlp import YoutubeDL #type: ignore
 from data import Data
 from xixobank import XixoBank
 
-VERSION = "0.1.31"
+VERSION = "0.1.32"
 
 async def download_audio(url):
     ydl_opts = {
@@ -44,6 +44,7 @@ class XixoBot(discord.Client):
                           "my sleepy ass could never", "i dont wanna say what im thinking right now", "bro i did not expect that", "shut up and take my money", "they may not be pregnant but they never fail to deliver", "mrrp meoww", "im toby fox creator of undertale", "when you see it youll shit bricks", "heres my amazing protein cupcake recipe! first you take 500 grams of cottage cheese", "you deserve a medal for that one", "alone at the edge of a universe humming a tune", "also try reactbot", "youre bald", "gatorade baby", ":x:", ":white_check_mark:", "i support the death penalty", "what if instead of xixo it was mojo and it was extremely inactive", "i dont believe in magic", "isnt it so funny that a person will eat when theyre hungry but will duck if you throw an apple at their face", f"you rolled a {random.randint(0, 7)}!", "conduite accompagnée :fire:", "crazy? i was crazy once, they locked me in a room. a rubber room with rats. and rats make me crazy", "did you know? R74n moderation is quick, efficient and fair. the french monarchy also said that about themselves and look what happened.", "you won!!!! your new balance is [505](<https://www.youtube.com/watch?v=qU9mHegkTc4>)", "do NOT gamble your xixoyens in evil mode at 3AM :scream:!!!!! (GONE WRONG)", "AND FERRARI DOES NOT WIN THE XIXO GRAND PRIX", "you should watch ratatouille again", "EVIL XIXOBOT SHALL PREVAIL",
                            "is that the guy from fortnite?", "im xixobot!", "wake up", "uhuh", "i remember that one time when a fellow sapling did not capitalize the R in R74n and ryan ordered the mods to execute them with the firing squad", "thats actually really funny", "i burned 3 houses in alabama in monday november 13th at 7 o clock", "*fucking explodes*", "you guys ever try natural ketchup", "as an ai language model i am unable to react to this", "im gonna need a mini xixobot for this one! \n-# this sucks!",
                            "we go together", "you never know...", "its xixoing time!", "i hunger. i feast.", "is this an arg?", "im bored. can we watch family guy funnies?", "well thats terrifying", "ня", "the goat", "im cooler than nmarkov", "ok garmin, video spreichern", "meeeoww :3", "just got off the phone with pythagoras... new theorem in the works", "you owe me 3 bucks for this response", "is there a miku cover of this?", "as satan, i confirm this is a hellsite", "uhh ill have the egg mcmuffin", "humans arent supposed to be doing this", 'look up "cute foxes :33333"', "yup, thats a cavity", "I can't stop drinking oil. I can't stop drinking oil. I just can't stop! I can't stop drinking crude oil. You know, the black stuff? That comes in barrels? I can't stop drinking it. I just can't! It's tantalizing! It's addicting! It is... a delicacy. I love it. I can't stop drinking oil. Crude oil! I can't stop guzzling it Gulping it down! I can't stop drinking crude oi", "sur le fondement de l'article 49 alinéa 3 de la construction, j'engage la responsabilité de mon gouvernement sur le projet de loi de finances pour l'année 2025. la séance est levée."
+                           "i have severe mental damage", "~~send boxels~~ my lawyer advised me not to mention that one person", ""
                           ]
         self.sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
         self.messages, self.messagesuserid, self.words, self.wordsuserid, self.msgcount = data.getData()
@@ -356,7 +357,7 @@ async def transfer(interaction: discord.Interaction, member: discord.Member, amo
         return
     recipient_balance = bank.checkBalance(member.id)
     if isinstance(recipient_balance, str):
-        await interaction.response.send_message("the other person doesm't have an account on the xixobank")
+        await interaction.response.send_message("the other person doesn't have an account on the xixobank")
         return
     new_balance = balance - amount
     new_recipient_balance = recipient_balance + amount
@@ -386,7 +387,7 @@ async def transfer(interaction: discord.Interaction, member: discord.Member, amo
         return
     recipient_balance = bank.checkBalance(member.id)
     if isinstance(recipient_balance, str):
-        await interaction.response.send_message("the other person doesm't have an account on the xixobank")
+        await interaction.response.send_message("the other person doesn't have an account on the xixobank")
         return
     new_recipient_balance = recipient_balance + amount
     bank.xixobankdata["balances"][str(member.id)] = new_recipient_balance
@@ -420,6 +421,12 @@ async def xyntoeur(interaction: discord.Interaction, amount: int):
         return
     await interaction.response.send_message(f"{amount} xixoyens is equal to {round(amount * 0.015576923, 2)} euros")
 
+@client.tree.command(name='surprise',description="a surprise")
+async def flashbang(interaction: discord.Interaction):
+    await interaction.response.send_message("THINK FAST CHUCKLENUTS")
+    time.sleep(1)
+    await interaction.edit_original_response(attachments=[discord.File("flashbang.png")])
+
 @client.tree.command(name='info',description='more info about xixobot')
 async def xyntoeur(interaction: discord.Interaction):
     await interaction.response.send_message(f"""xixobot v{VERSION} is a discord bot made for the xixo discord server.
@@ -427,7 +434,7 @@ xixobot collects the following data about you:
 - your discord avatar
 - your server name
 - your role color
-- your user id (xixobank only)
+- your user id
 - messages you sent
 this data is only used for commands such as:
 - every xixobank command
