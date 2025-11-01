@@ -54,7 +54,7 @@ class XixoBot(discord.Client):
             [":absolutesilly:", "<a:absolutesilly:1410925640739454986>"]
         ]
         self.okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
-        self.evilmode = True
+        self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
 
     async def on_ready(self):
@@ -90,21 +90,8 @@ class XixoBot(discord.Client):
             self.wordsuserid.append(message.author.id)
         data.saveData(self.messages, self.messagesuserid, self.words, self.wordsuserid, self.msgcount)
         guild = self.get_guild(1409280301666013286)
-        if message.content == "no more":
-            await message.channel.send("we're keeping xixobot evil till no more spooky month")
-            #await message.channel.send("awww no more evil :(")
-            #await message.guild.me.edit(nick="xixobot")
-            #self.evilmode = False
-            #with open("./xixobot.jpg", "rb") as image:
-            #    await self.user.edit(avatar=image.read())
         if "()" in message.content and "garmin" in message.content:
             await message.channel.send("do i look like a fucking python interpreter to you???")
-        if re.search(r"(ev+i+l)", message.content, re.IGNORECASE) and not self.evilmode:
-            await message.channel.send("did somebody say.. evil??? EVIL MODE!!!!!!!!!!!!")
-            await message.guild.me.edit(nick="EVIL XIXOBOT!!!!!")
-            self.evilmode = True
-            with open("./evil xixobot.png", "rb") as image:
-                await self.user.edit(avatar=image.read())
         if re.search(r"(paw|me+o+w|mrr+)", message.content) and ("<@&1409284344039870484>" in message.content or f"<@{self.user.id}>" in message.content):
             await message.channel.send(random.choice(self.sillymsg))
         if guild:
@@ -224,7 +211,7 @@ async def randomwordstr_command(interaction: discord.Interaction, wordcount:int)
     string = []
     for _ in range(wordcount):
         string.append(random.choice(client.words)+" ")
-    await interaction.response.send_message(f"generated string: `{"".join(string)}`")
+    await interaction.response.send_message(f"generated string: ``{"".join(string)}``")
 
 @client.tree.command(name="removemydata", description="removes your data from xixobot")
 async def removemydata_command(interaction: discord.Interaction):
