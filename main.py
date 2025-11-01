@@ -218,7 +218,6 @@ async def randomstr_command(interaction: discord.Interaction):
 
         # sends the embed
         await interaction.response.send_message(embed=embed)
-        await interaction.response.send_message("no messages have been recorded yet!")
 
 @client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
 async def randomstr_command(interaction: discord.Interaction):
