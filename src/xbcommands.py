@@ -253,19 +253,30 @@ def register(client, bank):
         await interaction.response.send_message("THINK FAST CHUCKLENUTS")
         await interaction.edit_original_response(content="", attachments=[discord.File("assets/images/flashbang.png")])
 
+    @client.tree.command(name='horse',description="horse")
+    async def h(interaction: discord.Interaction):
+        embed = discord.Embed(
+            title="horse",
+            color=int("a35b17", 16),
+            description=f"{"horse\n"*6}"
+        )
+        embed.set_author(name="horse", icon_url="attachment://assets/images/horse.webp")
+        embed.set_image(url="attachment://assets/images/horse.webp")
+        await interaction.response.send_message(embed=embed)
+
     @client.tree.command(name='info',description='more info about xixobot')
-    async def xyntoeur(interaction: discord.Interaction):
+    async def info_command(interaction: discord.Interaction):
         await interaction.response.send_message(f"""xixobot v{VERSION} is a discord bot made for the xixo discord server.
-    xixobot collects the following data about you:
-    - your discord avatar
-    - your server name
-    - your role color
-    - your user id
-    - messages you sent
-    this data is only used for commands such as:
-    - every xixobank command
-    - /randommsg and /randomwordstr
-    - /removemydata
-    - \"ok garmin, save video\"
-    you can request a data removal with the /removemydata command.
-    xixobot is not intended for use outside of xixo.""")
+xixobot collects the following data about you:
+- your discord avatar
+- your server name
+- your role color
+- your user id
+- messages you sent
+this data is only used for commands such as:
+- every xixobank command
+- /randommsg and /randomwordstr
+- /removemydata
+- \"ok garmin, save video\"
+you can request a data removal with the /removemydata command.
+xixobot is not intended for use outside of xixo.""")
