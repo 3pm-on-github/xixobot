@@ -109,7 +109,10 @@ class intriguing(app_commands.Group):
         votedbystr = ""
         for i in range(len(votesuserids[finalwinnerindex])):
             votedbystr+=f"<@{str(votes[finalwinnerindex][i])}, "
-        await interaction.channel.send(f"<@{str(finalwinner)}> won with {str(finalwinnervotes)} votes! :trophy:\n(voted by {votedbystr[:-2]})", embed=embed3)
+        if finalwinner == 0:
+            await interaction.channel.send(f"No one won!", embed=embed3)
+        else:
+            await interaction.channel.send(f"<@{str(finalwinner)}> won with {str(finalwinnervotes)} votes! :trophy:\n(voted by {votedbystr[:-2]})", embed=embed3)
         replies = 0
         intriguingreplies = []
         intriguingrepliesuserid = []
