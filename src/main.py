@@ -9,7 +9,7 @@ from screenshotlib import ScreenshotLib
 from data import Data
 from xixobank import XixoBank
 from xbcommands import register
-from xbcommands import intriguing
+from intriguingmg import intriguing
 
 async def create_send_delete_webhook(message, newcontent):
     webhook = await message.channel.create_webhook(name=message.author.display_name)
@@ -185,6 +185,7 @@ intents.guilds = True
 intents.messages = True
 intents.members = True
 intents.message_content = True
+intents.reactions = True
 
 data = Data("assets/data/data.json")
 print("data initiated")

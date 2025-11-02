@@ -1,12 +1,9 @@
 import requests # type:ignore
 import random, os, asyncio, json
 import discord # type:ignore
-from discord import app_commands # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
-import xixobank
 
 VERSION = "0.2"
-intriguingmsgid = 0
 
 async def download_audio(url):
     ydl_opts = {
@@ -21,26 +18,6 @@ async def download_audio(url):
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
         print("Downloaded audio from", url, "as music.mp3")
-
-class intriguing(app_commands.Group):
-    def __init__(self):
-        super().__init__(name="intriguing", description="so intriguing..")
-
-    @app_commands.command(name="command", description="???")
-    async def intriguing_command(self, interaction: discord.Interaction):
-        global intriguingmsgid
-        prompts = ["I didn't mean to kill him! I just _____", "A lesser talked about room in the white house", "Singapore has an almost unknown holiday where ______ is celebrated", "The reason flamingos stand on one leg", "Forge the cat in the hat, prepare yourself for ______", "6 words or less that would make a group of people mad", "Your final words before youre burned in Salem as a witch"]
-        randomprompt = random.choice(prompts)
-        embed = discord.Embed(
-            title=randomprompt,
-            color=int("b9d0ff", 16),
-            description="put your guesses in the comments below"
-        )
-        embed.set_author(name="Prompt")
-        await interaction.response.send_message(embed=embed)
-        msg = await interaction.original_response()
-        intriguingmsgid = msg.id
-        await msg.add_reaction("👀")
 
 def register(client, bank):
     @client.tree.command(name="haiii", description="haiii!!!!!!")
@@ -240,6 +217,12 @@ def register(client, bank):
         r = requests.get("https://api.thecatapi.com/v1/images/search?limit=1")
         jsondata = r.json()
         await interaction.response.send_message(jsondata[0]['url'])
+
+    @client.tree.command(name='fox',description='sends a random fox')
+    async def fox(interaction: discord.Interaction):
+        r = requests.get("https://randomfox.ca/floof/")
+        jsondata = r.json()
+        await interaction.response.send_message(jsondata['image'])
 
     @client.tree.command(name='eurtoxyn',description='calculate euros to xixoyens')
     async def eurtoxyn(interaction: discord.Interaction, amount: float):
