@@ -6,6 +6,7 @@ from yt_dlp import YoutubeDL #type: ignore
 import xixobank
 
 VERSION = "0.2"
+intriguingmsgid = 0
 
 async def download_audio(url):
     ydl_opts = {
@@ -27,6 +28,7 @@ class intriguing(app_commands.Group):
 
     @app_commands.command(name="command", description="???")
     async def intriguing_command(self, interaction: discord.Interaction):
+        global intriguingmsgid
         embed = discord.Embed(
             title="the only thing worse than unlimited bacon but no games",
             color=int("b9d0ff", 16),
@@ -34,6 +36,9 @@ class intriguing(app_commands.Group):
         )
         embed.set_author(name="Prompt")
         await interaction.response.send_message(embed=embed)
+        msg = await interaction.original_response()
+        intriguingmsgid = msg.id
+        await msg.add_reaction("👀")
 
 def register(client, bank):
     @client.tree.command(name="haiii", description="haiii!!!!!!")

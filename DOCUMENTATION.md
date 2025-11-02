@@ -21,7 +21,7 @@ class yourgroupnamehere(app_commands.Group):
     def __init__(self):
         super().__init__(name="yourgroupnamehere", description="your group description here")
 ```
-inside of the register function, to initiate the **group**. then, to make a **sub-command** in the **group**, you need to add:
+to initiate the **group**. then, to make a **sub-command** in the **group**, you need to add:
 ```py
     @app_commands.command(name="yourcommandnamehere", description="your command description here")
     async def yourcommandnamehere_command(self, interaction: discord.Interaction):
