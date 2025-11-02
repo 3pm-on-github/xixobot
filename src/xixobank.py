@@ -1,5 +1,4 @@
 import json
-from data import Data
 
 class XixoBank:
     def __init__(self, xixobankfile, signature):

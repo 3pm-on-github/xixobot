@@ -1,6 +1,10 @@
-xixobot v0.1.32:
+xixobot v0.2:
+    + added documentation
+    + added a lot more randomstr strings (xixobot became a possible threat to my computer)
     + surprise command
     + intriguing command
+    ~ code & fs cleanup
+    ~ separate commands from main
 
 xixobot v0.1.31:
     ~ autosave data

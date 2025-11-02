@@ -1,5 +1,5 @@
 venv
-xixobank.json
-data.json
+assets/data
 *.mp3
 __pycache__
+.vscode
