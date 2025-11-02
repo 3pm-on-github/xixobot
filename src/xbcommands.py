@@ -29,8 +29,10 @@ class intriguing(app_commands.Group):
     @app_commands.command(name="command", description="???")
     async def intriguing_command(self, interaction: discord.Interaction):
         global intriguingmsgid
+        prompts = ["I didn't mean to kill him! I just _____", "A lesser talked about room in the white house", "Singapore has an almost unknown holiday where ______ is celebrated", "The reason flamingos stand on one leg", "Forge the cat in the hat, prepare yourself for ______", "6 words or less that would make a group of people mad", "Your final words before youre burned in Salem as a witch"]
+        randomprompt = random.choice(prompts)
         embed = discord.Embed(
-            title="the only thing worse than unlimited bacon but no games",
+            title=randomprompt,
             color=int("b9d0ff", 16),
             description="put your guesses in the comments below"
         )
