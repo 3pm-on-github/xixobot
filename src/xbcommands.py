@@ -260,8 +260,8 @@ def register(client, bank):
             color=int("a35b17", 16),
             description=f"{"horse\n"*6}"
         )
-        embed.set_author(name="horse", icon_url="attachment://assets/images/horse.webp")
-        embed.set_image(url="attachment://assets/images/horse.webp")
+        embed.set_author(name="horse", icon_url="https://raw.githubusercontent.com/3pm-on-github/xixobot/refs/heads/main/assets/images/horse.webp")
+        embed.set_image(url="https://raw.githubusercontent.com/3pm-on-github/xixobot/refs/heads/main/assets/images/horse.webp")
         await interaction.response.send_message(embed=embed)
 
     @client.tree.command(name='info',description='more info about xixobot')
