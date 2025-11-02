@@ -108,7 +108,7 @@ class intriguing(app_commands.Group):
         )
         votedbystr = ""
         for i in range(len(votesuserids[finalwinnerindex])):
-            votedbystr+=f"<@{str(votes[finalwinnerindex][i])}, "
+            votedbystr+=f"<@{str(votesuserids[finalwinnerindex][i])}, "
         if finalwinner == 0:
             await interaction.channel.send(f"No one won!", embed=embed3)
         else:
