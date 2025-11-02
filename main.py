@@ -202,10 +202,11 @@ async def balance_command(interaction: discord.Interaction):
 
 @client.tree.command(name="intriguing command", description="???")
 async def intriguing_command(interaction: discord.Interaction):
+        randomprompt = random.choice(client.prompts)
         # initiates the embed
         # title="" is the title for the embed
         # color="" is the color of the embed (in this case, blue)
-        embed = discord.Embed(title="the only thing worse than unlimited bacon but no games", color="#b9d0ff", description="put your guesses in the comments below")
+        embed = discord.Embed(title=randomprompt, color="#b9d0ff", description="put your guesses in the comments below")
 
         # sets an author for the embed
         # name="" is the name of the author (in this case, the user's username)
