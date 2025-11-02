@@ -31,7 +31,11 @@ the **pass** is only for demonstration. in reality, you will need to put somethi
 now, you need to append the **group** to the **client**'s **tree**. you should only do this for every **group**.<br>
 to do that, append this to the end of **main.py**'s **xixobot** class's **__init__** function.<br>
 ```py
-self.tree.add_command(commands.yourgroupnamehere())
+self.tree.add_command(yourgroupnamehere())
+```
+and to import the group, you need to append this to the start of **main.py**:
+```py
+from xbcommands import yourgroupnamehere
 ```
 and now you are done! you've successfully made a **sub-command**. you should continue to the response section.<br>
 
