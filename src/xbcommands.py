@@ -3,7 +3,7 @@ import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
 
-VERSION = "0.2"
+VERSION = "0.2.1"
 
 async def download_audio(url):
     ydl_opts = {
@@ -34,11 +34,11 @@ def register(client, bank):
 
     @client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
     async def randomstr_command(interaction: discord.Interaction):
-        if client.messages:
-            randommessage = random.choice(client.defaultmsg)
-            await interaction.response.send_message(randommessage)
-        else:
-            await interaction.response.send_message("no messages have been recorded yet!")
+        await interaction.response.send_message(random.choice(client.defaultmsg))
+
+    @client.tree.command(name="characterheadcanon", description="sends a character headcanon")
+    async def headcanon_command(interaction: discord.Interaction, character:str):
+        await interaction.response.send_message(random.choice(client.headcanons).replace("!c", character))
 
     @client.tree.command(name="randomwordstr", description="sends a random string of words sent in xixo")
     async def randomwordstr_command(interaction: discord.Interaction, wordcount:int):
