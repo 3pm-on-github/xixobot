@@ -1,4 +1,5 @@
 xixobot v0.2.1:
+    + new acc, who dis? command
     + characterheadcanon command
     ~ more code cleanup, separate configurable variables to config.py
 

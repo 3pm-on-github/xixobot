@@ -9,6 +9,7 @@ from data import Data
 from xixobank import XixoBank
 from xbcommands import register
 from intriguingmg import intriguing
+from newaccwhodis import newaccwhodis
 from config import *
 
 async def create_send_delete_webhook(message, newcontent):
@@ -35,6 +36,7 @@ class XixoBot(discord.Client):
         self.evilmode = False
         self.tree = discord.app_commands.CommandTree(self)
         self.tree.add_command(intriguing())
+        self.tree.add_command(newaccwhodis())
         self.okgarmintriggers = okgarmintriggers
         self.headcanons = headcanons
     async def on_ready(self):

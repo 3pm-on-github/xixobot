@@ -1,6 +1,6 @@
-import random, time, asyncio
-import discord
-from discord import app_commands, ui
+import random, asyncio
+import discord # type:ignore
+from discord import app_commands, ui # type:ignore
 
 replies = 0
 intriguingreplies = []

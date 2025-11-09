@@ -1,4 +1,4 @@
-import requests, subprocess, random
+import requests, subprocess, random # type:ignore
 
 nonunicode = "¡¢£¤¥¦§¨ª«¬¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽž"
 def glitchtext(length):
@@ -42,4 +42,4 @@ randomstrstrings = ["so true", "peak", "would YOU do this for 40 xixoyen?", "htt
 sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
 okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
 # !c is replaced by the character.
-headcanons = ["!c likes apples.", "!c has an embarrassing old deviant art account.", "!c lives off caffine and spite", "Sometimes !c cooks pancakes in the air fryer", "!c hates life(emo ass)", "!c bought a pair of rubber gloves and kind of regrets it", "!c set a public school on fire and got away with it.", "!c cracks their knuckles very loudly.", "!c speaks only in meme refrences."]
+headcanons = ["!c likes apples.", "!c has an embarrassing old deviant art account.", "!c lives off caffine and spite", "Sometimes !c cooks pancakes in the air fryer", "!c hates life(emo ass)", "!c bought a pair of rubber gloves and kind of regrets it", "!c set a public school on fire and got away with it.", "!c cracks their knuckles very loudly.", "!c speaks only in meme refrences.", "!c is a femboy", "!c makes overly complicated bad apple remakes", "!c thinks their name is !c"]
