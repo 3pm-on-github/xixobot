@@ -1,8 +1,9 @@
 import random, asyncio
 import discord # type:ignore
 from discord import app_commands, ui # type:ignore
+from config import *
 
-replies = 0
+ireplies = 0
 intriguingreplies = []
 intriguingrepliesuserid = []
 votes = []
@@ -14,14 +15,14 @@ class intriguingmodal(ui.Modal):
         self.add_item(ui.TextInput(label="Complete the prompt"))
 
     async def on_submit(self, interaction: discord.Interaction):
-        global replies
+        global ireplies
         if interaction.user.id in intriguingrepliesuserid:
             await interaction.response.send_message("Sorry, but you already submitted a reply!", ephemeral=True)
         else:
-            if replies != 8:
+            if ireplies != 8:
                 votes.append(0)
                 votesuserids.append([])
-                replies+=1
+                ireplies+=1
                 intriguingreplies.append(self.children[0].value)
                 intriguingrepliesuserid.append(interaction.user.id)
                 await interaction.response.send_message(
@@ -36,17 +37,8 @@ class intriguing(app_commands.Group):
 
     @app_commands.command(name="play", description="???")
     async def intriguing_command(self, interaction: discord.Interaction):
-        global replies, intriguingreplies, intriguingrepliesuserid, votes, votesuserids
-        prompts = [
-            "I didn't mean to kill him! I just _____",
-            "A lesser talked about room in the white house",
-            "Singapore has an almost unknown holiday where ______ is celebrated",
-            "The reason flamingos stand on one leg",
-            "Forge the cat in the hat, prepare yourself for ______",
-            "6 words or less that would make a group of people mad",
-            "Your final words before youre burned in Salem as a witch"
-        ]
-        randomprompt = random.choice(prompts)
+        global ireplies, intriguingreplies, intriguingrepliesuserid, votes, votesuserids
+        randomprompt = random.choice(iprompts)
         embed = discord.Embed(
             title=randomprompt,
             color=int("b9d0ff", 16),
@@ -113,7 +105,7 @@ class intriguing(app_commands.Group):
             await interaction.channel.send(f"No one won!", embed=embed3)
         else:
             await interaction.channel.send(f"<@{str(finalwinner)}> won with {str(finalwinnervotes)} votes! :trophy:\n(voted by {votedbystr[:-2]})", embed=embed3)
-        replies = 0
+        ireplies = 0
         intriguingreplies = []
         intriguingrepliesuserid = []
         votes = []

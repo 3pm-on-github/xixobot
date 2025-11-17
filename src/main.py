@@ -1,9 +1,11 @@
-# xixobot v0.1.32 by 3pm
+# xixobot v0.2.2 by 3pm
 # copyright CC-BY-NC 4.0
 # more info in LICENSE.md
 
 import discord #type: ignore
 import os, random, re
+import xbcinterpreter
+import config
 from screenshotlib import ScreenshotLib
 from data import Data
 from xixobank import XixoBank
@@ -23,7 +25,7 @@ class XixoBot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.laccount = 0
-        self.defaultmsg = randomstrstrings
+        self.defaultmsg = config.custom["randomstrstrings"]
         print(str(len(self.defaultmsg))+" strings in total.")
         self.sillymsg = sillymsg
         self.messages, self.messagesuserid, self.words, self.wordsuserid, self.msgcount = data.getData()
@@ -54,7 +56,7 @@ class XixoBot(discord.Client):
                 print(f"someone invited me in {guild.name} for some reason ({guild.id})")
                 await guild.leave()
     
-    async def on_guild_join(guild):
+    async def on_guild_join(self, guild):
         if guild.id != 1409280301666013286:
             print(f"someone invited me in {guild.name} for some reason ({guild.id})")
             await guild.leave()
@@ -179,6 +181,8 @@ bank = XixoBank("assets/data/xixobank.json", data.getXixoBankSignature())
 print("xixobank initiated")
 register(client, bank)
 print("commands initiated")
+xbcinterpreter.initCommands(client)
+print("XBC commands initiated")
 
 async def setup_hook():
     await client.tree.sync()

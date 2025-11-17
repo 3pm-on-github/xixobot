@@ -1,21 +1,25 @@
-xixobot v0.2.1:
+xixobot v0.2.2 (16/11/2025):
+    + added XBC interpreter
+    + backinmyday command
+    ~ some code changes
+
+xixobot v0.2.1 (07/11/2025):
     + new acc, who dis? command
     + characterheadcanon command
     ~ more code cleanup, separate configurable variables to config.py
 
-xixobot v0.2:
+xixobot v0.2 (02/11/2025):
     + added documentation
     + added a lot more randomstr strings (xixobot became a possible threat to my computer)
     + surprise command
     + intriguing command
+    + horse comamnd
     ~ code & fs cleanup
     ~ separate commands from main
 
-xixobot v0.1.31:
-    ~ autosave data
-    ~ split classes
-
-xixobot v0.1.3:
+xixobot v0.1.31 (18/10/2025):
     + randomwordstr command
     + info command
     + removemydata command
+    ~ autosave data
+    ~ split classes

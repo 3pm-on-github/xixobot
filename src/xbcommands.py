@@ -2,8 +2,9 @@ import requests # type:ignore
 import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
+from config import prompts, iprompts, replies
 
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 
 async def download_audio(url):
     ydl_opts = {
@@ -15,15 +16,11 @@ async def download_audio(url):
             'preferredquality': '192',
         }],
     }
-    with YoutubeDL(ydl_opts) as ydl:
+    with YoutubeDL(ydl_opts) as ydl: # type:ignore
         ydl.download([url])
         print("Downloaded audio from", url, "as music.mp3")
 
 def register(client, bank):
-    @client.tree.command(name="haiii", description="haiii!!!!!!")
-    async def haiii_command(interaction: discord.Interaction):
-        await interaction.response.send_message("# haiii <:haiii:1409289771825762365>")
-
     @client.tree.command(name="balance", description="check your xixobank balance")
     async def balance_command(interaction: discord.Interaction):
         balance = bank.checkBalance(interaction.user.id)
@@ -32,20 +29,19 @@ def register(client, bank):
         embed.add_field(name="Balance", value=balance, inline=True)
         await interaction.response.send_message(embed=embed)
 
-    @client.tree.command(name="randomstr", description="sends a random string from xixobot's code")
-    async def randomstr_command(interaction: discord.Interaction):
-        await interaction.response.send_message(random.choice(client.defaultmsg))
-
     @client.tree.command(name="characterheadcanon", description="sends a character headcanon")
     async def headcanon_command(interaction: discord.Interaction, character:str):
         await interaction.response.send_message(random.choice(client.headcanons).replace("!c", character))
 
     @client.tree.command(name="randomwordstr", description="sends a random string of words sent in xixo")
     async def randomwordstr_command(interaction: discord.Interaction, wordcount:int):
-        string = []
-        for _ in range(wordcount):
-            string.append(random.choice(client.words)+" ")
-        await interaction.response.send_message(f"generated string: ``{"".join(string)}``")
+        if interaction.channel.id in [1438628843857645638, 1438899970907308103, 1438899992134946848, 1438900011466358804, 1438900042957193266, 1438900067095417024, 1438900085801877614]:
+            await interaction.response.send_message("/randomwordstr isn't allowed in visitor channels!")
+        else:
+            string = []
+            for _ in range(wordcount):
+                string.append(random.choice(client.words)+" ")
+            await interaction.response.send_message(f"generated string: ``{"".join(string)}``")
 
     @client.tree.command(name="removemydata", description="removes your data from xixobot")
     async def removemydata_command(interaction: discord.Interaction):
@@ -54,20 +50,25 @@ def register(client, bank):
             i+=1
             if userid == interaction.user.id:
                 del client.messages[i]
+                del client.messagesuserid[i]
         i=-1
         for userid in client.wordsuserid:
             i+=1
             if userid == interaction.user.id:
                 del client.words[i]
+                del client.wordsuserid[i]
         await interaction.response.send_message("your data has been removed from xixobot.")
 
     @client.tree.command(name="randommsg", description="sends a random message from chat")
     async def randommsg_command(interaction: discord.Interaction):
-        if client.messages:
-            randommessage = random.choice(client.messages)
-            await interaction.response.send_message(randommessage)
+        if interaction.channel.id in [1438628843857645638, 1438899970907308103, 1438899992134946848, 1438900011466358804, 1438900042957193266, 1438900067095417024, 1438900085801877614]:
+            await interaction.response.send_message("/randommsg isn't allowed in visitor channels!")
         else:
-            await interaction.response.send_message("no messages have been recorded yet!")
+            if client.messages:
+                randommessage = random.choice(client.messages)
+                await interaction.response.send_message(randommessage)
+            else:
+                await interaction.response.send_message("no messages have been recorded yet!")
 
     @client.tree.command(name='playmp3',description='plays an mp3 in a voice channel')
     async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
@@ -155,7 +156,7 @@ def register(client, bank):
                 await interaction.response.send_message(f"you lost 3: your new balance is {new_balance}")
 
     @client.tree.command(name='transfer',description='transfer xixoyens to another user')
-    async def transfer(interaction: discord.Interaction, member: discord.Member, amount: int):
+    async def transfer_command(interaction: discord.Interaction, member: discord.Member, amount: int):
         if amount <= 0:
             await interaction.response.send_message("please enter a positive amount")
             return
@@ -252,6 +253,22 @@ def register(client, bank):
         )
         embed.set_author(name="horse", icon_url="https://raw.githubusercontent.com/3pm-on-github/xixobot/refs/heads/main/assets/images/horse.webp")
         embed.set_image(url="https://raw.githubusercontent.com/3pm-on-github/xixobot/refs/heads/main/assets/images/horse.webp")
+        await interaction.response.send_message(embed=embed)
+
+    @client.tree.command(name='stats',description='xixobot string stats')
+    async def stats_command(interaction: discord.Interaction):
+        embed = discord.Embed(
+            title="xixobot string stats",
+            color=int("EED7A6", 16),
+            description=f"these are the stats for the number of strings in xixobot's code."
+        )
+        embed.add_field(name="randomstr strings", value=str(len(client.defaultmsg)), inline=True)
+        embed.add_field(name="randommsg strings", value=str(len(client.messages)), inline=True)
+        embed.add_field(name="randomwordstr words", value=str(len(client.words)), inline=True)
+        embed.add_field(name="headcanon strings", value=str(len(client.headcanons)), inline=True)
+        embed.add_field(name="schmitlash prompts", value=str(len(iprompts)), inline=True)
+        embed.add_field(name="newaccwhodis prompts", value=str(len(prompts)), inline=True)
+        embed.add_field(name="newaccwhodis replies", value=str(len(replies)), inline=True)
         await interaction.response.send_message(embed=embed)
 
     @client.tree.command(name='info',description='more info about xixobot')

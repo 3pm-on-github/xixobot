@@ -1,0 +1,13 @@
+# 3pmscommands v0.1 by 3pm
+
+command backinmyday {
+    respondrandomfromconfig("backinmydaystrings")
+}
+
+command haiii {
+    response("# haiii <:haiii:1409289771825762365>")
+}
+
+command randomstr {
+    respondrandomfromconfig("randomstrstrings")
+}
