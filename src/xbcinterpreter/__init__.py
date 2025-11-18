@@ -8,8 +8,11 @@ import config
 def command(client, name, body_lines):
     response_text = None
     config_varname = None
+    cmd_description = "XBC command"
     for line in body_lines:
         line = line.strip()
+        if line.startswith("set description"):
+            cmd_description = line[15:].strip()[1:].strip().strip('"')
         if line.startswith("response(") and line.endswith(")"):
             response_text = line[len("response("):-1].strip().strip('"')
         if line.startswith("respondrandomfromconfig(") and line.endswith(")"):
@@ -27,7 +30,7 @@ def command(client, name, body_lines):
 
     client.tree.command(
         name=name,
-        description=f"XBC command"
+        description=cmd_description
     )(generated)
 
 def run(client, file_content):

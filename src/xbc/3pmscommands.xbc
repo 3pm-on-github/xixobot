@@ -1,13 +1,16 @@
 # 3pmscommands v0.1 by 3pm
 
 command backinmyday {
+    set description = "send a random back in my day string"
     respondrandomfromconfig("backinmydaystrings")
 }
 
 command haiii {
+    set description = "haiii!! :333"
     response("# haiii <:haiii:1409289771825762365>")
 }
 
 command randomstr {
+    set description = "send a random string"
     respondrandomfromconfig("randomstrstrings")
 }
