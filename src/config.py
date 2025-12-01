@@ -31,6 +31,13 @@ try:
 except Exception:
     pass
 
+pythoncodes = [""">>> def generateXixo(amount):
+...     print("xixo "*amount)
+...     
+>>> generateXixo(20)
+xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo
+"""]
+fish = ["Anomalocaris! holy peak", "catfish! does it purr? perchance?", "dogfish! woof", "goldfish! how rich!", "yurifish! peakfish: estrogen edition :fire:", "yaoifish! peakfish :fire:", "nautilus! very rare fish", "yipefish! wha- huh? non-binary fish?", "seaweed! get a zip bag", ""]
 sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
 okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
 # !c is replaced by the character.
@@ -40,12 +47,31 @@ replies = [
     "can you wait a bit i need to finish this game of chess",
     "no thanks i already have enough",
     "how did you get my phone number",
-    "why is there a comically large tungsten cube"
+    "why is there a comically large tungsten cube",
+    "shut up",
+    "you can never get too much estrogen",
+    "NOOOO THE DORITOS SPREAD ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽",
+    "this is not machine love",
+    "ok garmin, block this person",
+    "I DON'T FUCKING CARE",
+    "im not a stranger im a human on this planet earth",
 ]
 prompts = [
     "hey, was just wondering if you got the xixo yet",
     "hi this is amazon refund services how may i help you",
-    "do you still have your earbuds? the train is noisy"
+    "do you still have your earbuds? the train is noisy",
+    "shit i lost my doritos ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼 ◀️ 🔽 ▶️ 🔼",
+    f"{"horse 🐴\n"*6}\ngod i cant finish this wordle",
+    "my heart sings a chorus out of tune",
+    "im out of estrogen could you mail me some",
+    "meoww :333 mrrp :33 😼😼😼",
+    "whats a python interpreter? just wondering.",
+    "check your mailbomb theres a pipebox in it",
+    "doki doki did you know? yuri from ddlc's brother is called yaoi.",
+    "did you try to turn the figure 8 into a circle?",
+    "have you tried this game called progressbar95",
+    "im in the train rn i forgot my keys can you help me get back home",
+    "this number isn't saved in my contacts?? who are you?? stranger??",
 ]
 iprompts = [
     "I didn't mean to kill him! I just _____",
@@ -54,7 +80,16 @@ iprompts = [
     "The reason flamingos stand on one leg",
     "Forge the cat in the hat, prepare yourself for ______",
     "6 words or less that would make a group of people mad",
-    "Your final words before youre burned in Salem as a witch"
+    "Your final words before youre burned in Salem as a witch",
+    "The reason why everyone in xixo needs estrogen",
+    "The person who replies to this message has ______ at least once in their life.",
+    "An animal that would be a good idea for a xixobot command",
+    "Come on, ______ isn't even that bad!",
+    "Why did you make me pull over? Is it because i ______?",
+    "The evil people are the people who ______.",
+    "The reason why cats always land on their paws.",
+    "A person that could really help to make xixobot strings.",
+    "The funniest video you've seen recently."
 ]
 
 custom = {
@@ -65,7 +100,8 @@ custom = {
         "we go together", "you never know...", "its xixoing time!", "i hunger. i feast.", "is this an arg?", "im bored. can we watch family guy funnies?", "well thats terrifying", "ня", "the goat", "im cooler than nmarkov", "ok garmin, video spreichern", "meeeoww :3", "just got off the phone with pythagoras... new theorem in the works", "you owe me 3 bucks for this response", "is there a miku cover of this?", "as satan, i confirm this is a hellsite", "uhh ill have the egg mcmuffin", "humans arent supposed to be doing this", 'look up "cute foxes :33333"', "yup, thats a cavity", "I can't stop drinking oil. I can't stop drinking oil. I just can't stop! I can't stop drinking crude oil. You know, the black stuff? That comes in barrels? I can't stop drinking it. I just can't! It's tantalizing! It's addicting! It is... a delicacy. I love it. I can't stop drinking oil. Crude oil! I can't stop guzzling it Gulping it down! I can't stop drinking crude oi", "sur le fondement de l'article 49 alinéa 3 de la construction, j'engage la responsabilité de mon gouvernement sur le projet de loi de finances pour l'année 2025. la séance est levée."
         "i have severe mental damage", "~~send boxels~~ my lawyer advised me not to mention that one person", "but i crumble completely when you cry", "it seems like once again you had to greet me with goodbye", "does someone have any extra estrogen i could borrow?", "me when i have to make 25 commits to make a /ping command", "this is the 100th randomstr string! lets celebrate by listening to Cotards Solution (Anatta, Dukkha, Anicca) by Will Wood and the Tapeworms. would you live in black and white?", f"your ip address is {random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}. don't believe me? yeah you should.", "hello can i get a cheeseburger laced with 75g of estrogen", "remember the xixobot depression arc? we shouldnt remember that one.", "have you ever tried a pb&j sandwich?", "what if xixobot was secretly will wood", "hong lu limbus company", "dante limbus company", "would 3pm be dante's silly brother? i dont know. you tell me.", "what if moss was secretly cosplaying as dante for halloween, and taped a clock on her face set to :clock30:?\nadd a green hoodie, mildly grayish blue jeans and a black cone and you've successfully cosplayed as 3pm. remove the clock tho, maybe.", "who the fuck is christmoss and why have they been inactive since almost 2 years already", "this dog is- wait, what the fuck? what's going on im scared? who the fuck is-", "have you seen this person called \"**EVIL XIXOBOT!!!**\"? please dont interact with him, he's evil",
         "this is getting so long", "dear diare\ntoday i learnd that\nim xixobot\nget me out of this file system", f"im bored so here's 3pm's xixobot file list:\n{subprocess.check_output(["ls"], text=True)}this is real btw", "ok garmin, {subprocess.check_output([\"cd\", \"..\", \"&&\", \"ls\"], text=True)}", f"guys i found this process called \"{processname}\" in 3pm's process list what does that mean", f"3pm's first name is set to {subprocess.check_output('getent passwd "$USER" | cut -d: -f5', shell=True, text=True).strip()} on their computer do you think that's their real name", f"{glitchtext(50)}", "is the xixobot self-conscious arc coming?", "are you hello high am i what hello high", "when the beer asks me how many police officers i drank tonight", "when the estrogen laced cookie asks me how many trans people i ate", "~~when the AHHHHHH HEEELP HELP MEEE~~ there is a possible chance that ztunedd will find this unfunny, so i'll just not send anything at all. run /randomstr again or smth.", "have you ever looked at someone and wondered what is going on inside their head?\nwell, their brain activity is made of moss balls.", "oh god is that-.. no.. it cant be.. PRE-TRANSGENDER JOHN \"MOSS\" ILIKEPIZZA?? AHHHH", "||b||||o||||o|| did i scare you? no? oh well. my lawyer advised me not to post the meme i was gonna send.", "brain activity when thinking 'bout moss balls", "brain activity when thinking 'bout EVIL MOSS BALLS!!!", "i cannot describe how happy i am right now", "i am going to take snaps, from snapchat, and burn them onto a ***DVD***",
-        "strawberry cheesecake", "hudsun_ my beloved", "Watch what happens when we try to turn a figure 8 into a circle!\n# I DONT FUCKING CARE", f"this initial is secretly a femboy: {random.choice([char for char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"])}", "\"Mais cette méthode présente également un inconvénient, à savoir une capacité globale de la batterie légèrement inférieure.\" - last words from \"French MKBHD\" before he died.", "can you teach me to be [real](<https://www.youtube.com/watch?v=sqK-jh4TDXo>)?"
+        "strawberry cheesecake", "hudsun_ my beloved", "Watch what happens when we try to turn a figure 8 into a circle!\n# I DONT FUCKING CARE", f"this initial is secretly a femboy: {random.choice([char for char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"])}", "\"Mais cette méthode présente également un inconvénient, à savoir une capacité globale de la batterie légèrement inférieure.\" - last words from \"French MKBHD\" before he died.", "can you teach me to be [real](<https://www.youtube.com/watch?v=sqK-jh4TDXo>)?", "Traceback (most recent call last):\n  File \"/run/media/deck/SN512/Workspaces/xixobot/src/xbcinterpreter/__init__.py\", line 29, in <module>\n    while True:\n        await interaction.channel.send(ip)\nNameError: name 'ip' is not defined.", "she say do you love me i tell her im xixobot!", "i heard they were making a /randommedia command", 
+        f"im running out of ideas for strings so ill just run random python code.\n{random.choice(pythoncodes)}"
     ],
     "backinmydaystrings": [
         "BAACK IN MY DAAY WE DIDNT HAVE NO \"XBC INTERPRETERRR\" WE HAD TO WRITE TO A MAIN.PY FILE AND IT WAS HELL TO MAKE COMMANDSSSS", "BAACK IN MY DAAY WE DIDNT HAVE NO DATA AUTOSAVINGG WE HAD TO OVERWRITE THE MESSAGE COUNT MANUALLY EVERYTIME XIXOBOT RESTARTEDDD", "BAACK IN MY DAAY WE DIDNT HAVE NO XIXO 2 WE HAD TO USE THE XIXO GROUP CHAT AND IT WAS HELL BECAUSE THERE WERE NO BOTS AND THERE WAS A MEMBER LIMIT OF 10 MEMBERSSS", "BAACK IN MY DAAY WE DIDNT HAVE NO XIXO GROUP CHAAT WE ONLY HAD THE MOJO GROUP CHAAT AND IT SUCKED BECAUSE WE BARELY USED IT AND WE DONT USE IT ANYMORE BECAUSE THERES AN ACCOUNT WE CANT REMOVE THEREE", "BAACK IN MY DAAY WE DIDNT HAVE NO /RANDOMWORDSTR OR /RANDOMSTR WE ONLY HAD /RANDOMMSG AND IT COMBINED THE STRINGS IN THE CODE AND USER SENTT"

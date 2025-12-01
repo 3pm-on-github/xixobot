@@ -1,7 +1,7 @@
 # 3pmscommands v0.1 by 3pm
 
 command backinmyday {
-    set description = "send a random back in my day string"
+    set description = "sends a random back in my day string"
     respondrandomfromconfig("backinmydaystrings")
 }
 
@@ -11,6 +11,6 @@ command haiii {
 }
 
 command randomstr {
-    set description = "send a random string"
+    set description = "sends a random string"
     respondrandomfromconfig("randomstrstrings")
 }

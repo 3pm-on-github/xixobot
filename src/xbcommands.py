@@ -2,7 +2,7 @@ import requests # type:ignore
 import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
-from config import prompts, iprompts, replies
+from config import prompts, iprompts, replies, fish
 
 VERSION = "0.2.2"
 
@@ -28,6 +28,27 @@ def register(client, bank):
         embed.set_author(name=interaction.user.name, icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
         embed.add_field(name="Balance", value=balance, inline=True)
         await interaction.response.send_message(embed=embed)
+
+    @client.tree.command(name='fishing',description="let's go fishing!!!")
+    async def fishing(interaction: discord.Interaction):
+        await interaction.response.send_message("You fish..")
+        await asyncio.sleep(random.randint(1, 10))
+        xynamount = random.randint(1, 10)
+        await interaction.edit_original_response(content=f"You caught a {random.choice(fish)}\nYou won {xynamount}XYN.")
+        recipient_balance = bank.checkBalance(interaction.user.id)
+        if isinstance(recipient_balance, str):
+            await interaction.channel.send("You don't have an account on the xixobank!")
+            return
+        new_recipient_balance = recipient_balance + xynamount
+        bank.xixobankdata["balances"][str(interaction.user.id)] = new_recipient_balance
+        bank.xixobankdata["transactions"].append({
+            "type": "add",
+            "who": int(interaction.user.id),
+            "amount": xynamount
+        })
+        bank.xixobankf.seek(0)
+        json.dump(bank.xixobankdata, bank.xixobankf, indent=4)
+        bank.xixobankf.truncate()
 
     @client.tree.command(name="characterheadcanon", description="sends a character headcanon")
     async def headcanon_command(interaction: discord.Interaction, character:str):
