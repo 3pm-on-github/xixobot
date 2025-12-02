@@ -37,7 +37,20 @@ pythoncodes = [""">>> def generateXixo(amount):
 >>> generateXixo(20)
 xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo xixo
 """]
-fish = ["Anomalocaris! holy peak", "catfish! does it purr? perchance?", "dogfish! woof", "goldfish! how rich!", "yurifish! peakfish: estrogen edition :fire:", "yaoifish! peakfish :fire:", "nautilus! very rare fish", "yipefish! wha- huh? non-binary fish?", "seaweed! get a zip bag", ""]
+fish = ["Anomalocaris! It does its best.",
+        "Catfish! Does it purr? perchance?", #you can't just say perchance
+        "Dogfish! Woof!",
+        "Goldfish! How fancy!",
+        "Yurifish! peakfish: estrogen edition :fire:",
+        "Yaoifish! peakfish :fire:",
+        "Nautilus! very rare fish",
+        "Yipeefish! Wha- huh? non-binary fish?",
+        "Seaweed! Doobie.",
+        "Dongfish! I'm not even gonna make a joke about this one",
+        "Sea Horse! I sure do!",
+        "Anenome! Oh the misery",
+        "Mahi Mahi! It's no longer 86ed!",
+        "Octopus! It has the power of the sun in the palm of its... tentacle?" ]
 sillymsg = ["meowwwwww :3", "purr purr :3", "hisssss :3", "nyaaa :3", "rawr :3", "mrrr :3", "paw :3", "scratch scratch :3"]
 okgarmintriggers = ["ok garmin, video speichern", "ok garmin, guarda video", "ok garmin, zapisz nagranie", "ok garmin, enregistre la vidéo", "ok garmin, guarda el video", "окей гармін, збережи відео", "ok garmin, guarda o vídeo", "ok garmin, salva il video", "ok garmin, save video"]
 # !c is replaced by the character.
