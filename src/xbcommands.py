@@ -3,6 +3,7 @@ import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
 from config import prompts, iprompts, replies, fish
+import data as xbdata
 
 VERSION = "0.2.2"
 
@@ -101,9 +102,19 @@ def register(client, bank):
         await file.save(filepath)
         voice_channel=user.voice.channel
         if voice_channel!= None:
-            await interaction.response.send_message(f'playing in {voice_channel.name}')
+            await interaction.response.send_message("please wait..")
+            data = {
+                'url': file.url,
+                'api_token': xbdata.Data("assets/data/data.json").getMusicToken()
+            }
+            result = requests.post('https://api.audd.io/', data=data)
+            songname = "unknown song"
+            print(result.text)
+            if result.json()["status"] == "success":
+                songname = result.json()["result"]["artist"] + " - " + result.json()["result"]["title"]
+            await interaction.edit_original_response(content=f'playing in {voice_channel.name} ({songname})')
             vc = await voice_channel.connect()
-            vc.play(discord.FFmpegPCMAudio(filepath), after=lambda _: print('done'))
+            vc.play(discord.FFmpegPCMAudio(filepath), after=lambda _: print("done"))
             while vc.is_playing():
                 await asyncio.sleep(1)
             await vc.disconnect()
