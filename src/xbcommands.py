@@ -3,7 +3,6 @@ import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
 from config import prompts, iprompts, replies, fish
-import data as xbdata
 
 VERSION = "0.2.2"
 
@@ -103,16 +102,7 @@ def register(client, bank):
         voice_channel=user.voice.channel
         if voice_channel!= None:
             await interaction.response.send_message("please wait..")
-            data = {
-                'url': file.url,
-                'api_token': xbdata.Data("assets/data/data.json").getMusicToken()
-            }
-            result = requests.post('https://api.audd.io/', data=data)
-            songname = "unknown song"
-            print(result.text)
-            if result.json()["status"] == "success":
-                songname = result.json()["result"]["artist"] + " - " + result.json()["result"]["title"]
-            await interaction.edit_original_response(content=f'playing in {voice_channel.name} ({songname})')
+            await interaction.edit_original_response(content=f'playing in {voice_channel.name}')
             vc = await voice_channel.connect()
             vc.play(discord.FFmpegPCMAudio(filepath), after=lambda _: print("done"))
             while vc.is_playing():
@@ -302,6 +292,16 @@ def register(client, bank):
         embed.add_field(name="newaccwhodis prompts", value=str(len(prompts)), inline=True)
         embed.add_field(name="newaccwhodis replies", value=str(len(replies)), inline=True)
         await interaction.response.send_message(embed=embed)
+
+    @client.tree.command(name='membercount',description="the member count (not including alts and bots)")
+    async def membercount(interaction: discord.Interaction):
+        members = interaction.channel.members
+        membercount = 0
+        for member in members:
+            if member.bot:pass
+            else:membercount += 1
+        membercount -= 14 # not including alts btw!!
+        await interaction.response.send_message(f"there are {str(membercount)} members")
 
     @client.tree.command(name='info',description='more info about xixobot')
     async def info_command(interaction: discord.Interaction):

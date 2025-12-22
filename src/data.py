@@ -5,10 +5,7 @@ class Data:
         self.filename = filename
         with open(filename, "r") as f:
             self.data = json.load(f)
-    
-    def getMusicToken(self):
-        return self.data.get("musicregtoken")
-    
+            
     def getToken(self):
         return self.data.get("token")
     

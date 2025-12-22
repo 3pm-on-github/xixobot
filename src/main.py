@@ -46,7 +46,7 @@ class XixoBot(discord.Client):
         guild = self.get_guild(1409280301666013286)
         self.useridlist = [member.id for member in self.get_guild(1409280301666013286).members if not member.bot]
         if guild:
-            channel = guild.get_channel(1409281073174679793)
+            channel = guild.get_channel(1450741663986225265)
             if channel:
                 await channel.send('haiiii chat :333')
             else:
@@ -90,12 +90,12 @@ class XixoBot(discord.Client):
             await message.channel.send(random.choice(self.sillymsg))
         if guild:
             if str(self.msgcount) in "123456789":
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     await channel.send("holy shit is that a NUMBER SERIES?? "+str(self.msgcount)+" messages!")
                     print("le number series")
             if self.msgcount % 10000 == 0:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     if self.evilmode:
                         await channel.send('EVIL ABSOLUTE SILLY!!!! <a:absolutesilly:1410925640739454986> ' + str(self.msgcount) + " MESSAGES!!!!\nThis is absolutely insane. If you don't realize how huge this number already is, i dont understand you.\nIf 50000 messages are hit, we literally already sent more messages here than in the xixo gc. love y'all :3")
@@ -104,7 +104,7 @@ class XixoBot(discord.Client):
                         await channel.send('ABSOLUTE SILLY!! <a:absolutesilly:1410925640739454986> ' + str(self.msgcount) + " messages!\nThis is absolutely insane. If you don't realize how huge this number already is, i dont understand you.\nIf 50000 messages are hit, we literally already sent more messages here than in the xixo gc. love y'all :3")
                         print("absolute silly!")
             if self.msgcount % 1000 == 0:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     if self.evilmode:
                         await channel.send('EVIL SUPER SILLY!!!! <a:sillysquishbounce:1409297784615731212> ' + str(self.msgcount) + " MESSAGES!!!!")
@@ -113,22 +113,22 @@ class XixoBot(discord.Client):
                         await channel.send('SUPER SILLY!! <a:sillysquishbounce:1409297784615731212> ' + str(self.msgcount) + " messages!")
                         print("super silly!")
             if self.msgcount % 1000 == 777:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     await channel.send('JACKPOT HIT!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                     print("jackpot hit!!!")
             if self.msgcount % 10000 == 4090:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     await channel.send('<@1008565108542287994> WAKE UP RTX WE GOT THE 4090!!!!!!!! <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                     print("rtx 4090!!!")
             if self.msgcount % 10000 == 5090:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     await channel.send('rtx 5090 youre not welcome here get the fuck out, YOU\'RE GAY!!!!!!! (insert rtx doing middle finger emoji here) ' + str(self.msgcount) + " messages!")
                     print("rtx 5090 bad bad")
             if self.msgcount % 100 == 0:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     if self.evilmode:
                         await channel.send('EVIL SILLY!!!! <a:sillysquish:1409297987928996872> ' + str(self.msgcount) + " MESSAGES!!!!")
@@ -137,7 +137,7 @@ class XixoBot(discord.Client):
                         await channel.send('silly <a:sillysquish:1409285183441473647> ' + str(self.msgcount) + " messages!")
                         print("silly!")
             if self.msgcount % 10 == 0:
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     if self.evilmode:
                         await channel.send('EVIL PING <@&1409927461550166146> ' + str(self.msgcount) + " MESSAGES!!!!!")
@@ -147,7 +147,7 @@ class XixoBot(discord.Client):
                         print("ping!", self.msgcount, "messages!")
             if self.laccount == 5:
                 self.laccount = 0
-                channel = guild.get_channel(1409281073174679793)
+                channel = guild.get_channel(1450741663986225265)
                 if channel:
                     if self.evilmode:
                         await channel.send('EVIL RIVIÈRE!!!!')

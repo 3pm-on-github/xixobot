@@ -2,6 +2,7 @@ xixobot v0.2.2 (16/11/2025):
     + added XBC interpreter
     + fishing command
     + backinmyday command
+    + membercount command
     ~ some code changes
 
 xixobot v0.2.1 (07/11/2025):

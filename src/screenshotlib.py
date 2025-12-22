@@ -1,5 +1,5 @@
 import io
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont #type: ignore
 
 def load_font(size=16):
     font_paths = [

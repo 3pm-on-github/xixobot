@@ -1,4 +1,4 @@
-import random, asyncio
+import random
 import discord # type:ignore
 from discord import app_commands, ui # type:ignore
 from config import *
