@@ -86,8 +86,11 @@ def register(client, bank):
             await interaction.response.send_message("/randommsg isn't allowed in visitor channels!")
         else:
             if client.messages:
-                randommessage = random.choice(client.messages)
-                await interaction.response.send_message(randommessage)
+                randommessageindex = random.randint(0, len(client.messages)-1)
+                randommessage = client.messages[randommessageindex]
+                randommessageuserid = client.messagesuserid[randommessageindex]
+                if randommessageuserid != 1008565108542287994:
+                    await interaction.response.send_message(randommessage)
             else:
                 await interaction.response.send_message("no messages have been recorded yet!")
 
