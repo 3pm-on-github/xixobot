@@ -104,6 +104,11 @@ iprompts = [
     "A person that could really help to make xixobot strings.",
     "The funniest video you've seen recently."
 ]
+medias = [
+    "assets/images/randommedia/evil xixobot.png",
+    "assets/images/randommedia/xixobot.jpg",
+    "assets/images/randommedia/horse.webp",
+]
 
 custom = {
     "randomstrstrings": [

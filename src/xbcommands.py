@@ -2,7 +2,7 @@ import requests # type:ignore
 import random, os, asyncio, json
 import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
-from config import prompts, iprompts, replies, fish
+from config import prompts, iprompts, replies, fish, medias
 
 VERSION = "0.2.2"
 
@@ -90,6 +90,14 @@ def register(client, bank):
                 await interaction.response.send_message(randommessage)
             else:
                 await interaction.response.send_message("no messages have been recorded yet!")
+
+    @client.tree.command(name="randommedia", description="sends a random media")
+    async def randommedia_command(interaction: discord.Interaction):
+        if interaction.channel.id in [1438628843857645638, 1438899970907308103, 1438899992134946848, 1438900011466358804, 1438900042957193266, 1438900067095417024, 1438900085801877614]:
+            await interaction.response.send_message("/randommedia isn't allowed in visitor channels!")
+        else:
+            randommedia = random.choice(medias)
+            await interaction.response.send_message(file=discord.File(randommedia))
 
     @client.tree.command(name='playmp3',description='plays an mp3 in a voice channel')
     async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
