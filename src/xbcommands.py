@@ -77,6 +77,14 @@ def register(client, bank):
             await returns("[(implodes)](https://tenor.com/view/whateverthisis-whateverthisiscore-snaptic-snapticcore-gif-8435933223048940826)")
         elif command == "help":
             await returns("available commands: say [message], version, help, X + △ + R2")
+        elif command == "cod3breaker":
+            await returns("77 89 99 106 111 120 125")
+        elif command == "12107595":
+            await returns("congrats!")
+        elif command == "IHATESTREAMING":
+            await returns("remember to NOT use internet archive or else you could accidentally find entire movies free to watch because its PIRACY and ILLEGAL!!")
+        elif command == "BALL":
+            await returns("https://www.myinstants.com/media/sounds/undertale-ballchime.mp3")
 
     @client.tree.command(name="removemydata", description="removes your data from xixobot")
     async def removemydata_command(interaction: discord.Interaction):
