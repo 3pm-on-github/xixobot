@@ -63,6 +63,20 @@ def register(client, bank):
             for _ in range(wordcount):
                 string.append(random.choice(client.words)+" ")
             await interaction.response.send_message(f"generated string: ``{"".join(string)}``")
+    
+    @client.tree.command(name="cmd", description="command line where you can run custom commands")
+    async def cmd_command(interaction: discord.Interaction, command:str):
+        async def returns(string):
+            await interaction.response.send_message(f"`> {command}`\n{string}")
+
+        if command.startswith("say "):
+            await returns(command[4:])
+        elif command == "version":
+            await returns(f"xixobot version {VERSION}")
+        elif command == "X + △ + R2":
+            await returns("[(implodes)](https://tenor.com/view/whateverthisis-whateverthisiscore-snaptic-snapticcore-gif-8435933223048940826)")
+        elif command == "help":
+            await returns("available commands: say [message], version, help, X + △ + R2")
 
     @client.tree.command(name="removemydata", description="removes your data from xixobot")
     async def removemydata_command(interaction: discord.Interaction):
