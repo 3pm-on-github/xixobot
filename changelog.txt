@@ -1,9 +1,12 @@
+xixobot v0.2.3 (29/12/2025):
+    + raise an anomalocaris command
+    + membercount command
+    + randommedia command
+
 xixobot v0.2.2 (16/11/2025):
     + added XBC interpreter
     + fishing command
     + backinmyday command
-    + membercount command
-    + randommedia command
     ~ some code changes
 
 xixobot v0.2.1 (07/11/2025):

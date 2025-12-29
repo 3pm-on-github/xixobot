@@ -4,7 +4,7 @@ import discord # type:ignore
 from yt_dlp import YoutubeDL #type: ignore
 from config import prompts, iprompts, replies, fish, medias
 
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 
 async def download_audio(url):
     ydl_opts = {

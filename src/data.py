@@ -21,6 +21,21 @@ class Data:
             self.data.get("msgcount"),
         )
     
+    def getAnomalocarisInfo(self):
+        return (
+            self.data.get("anomalocaris_name"),
+            self.data.get("anomalocaris_dateofcreation"),
+        )
+
+    def saveAnomalocarisInfo(self, name):
+        self.data["anomalocaris_name"] = name
+        try:
+            with open(self.filename, "w") as f:
+                json.dump(self.data, f, indent=4)
+            print(f"Successfully saved anomalocaris name: {name}")
+        except Exception as e:
+            print(f"Error saving anomalocaris data: {e}")
+    
     def saveData(self, messages, messagesuserid, words, wordsuserid, msgcount):
         self.data["messages"] = messages
         self.data["messagesuserid"] = messagesuserid

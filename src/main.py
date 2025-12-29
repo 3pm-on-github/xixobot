@@ -12,6 +12,7 @@ from xixobank import XixoBank
 from xbcommands import register
 from intriguingmg import intriguing
 from newaccwhodis import newaccwhodis
+from raiseananomalocaris import raiseananomalocaris
 from config import *
 
 async def create_send_delete_webhook(message, newcontent):
@@ -39,8 +40,13 @@ class XixoBot(discord.Client):
         self.tree = discord.app_commands.CommandTree(self)
         self.tree.add_command(intriguing())
         self.tree.add_command(newaccwhodis())
+        self.tree.add_command(raiseananomalocaris())
         self.okgarmintriggers = okgarmintriggers
         self.headcanons = headcanons
+
+    async def setup_hook(self):
+        await self.tree.sync()
+
     async def on_ready(self):
         print(f'logged in as {self.user}')
         guild = self.get_guild(1409280301666013286)
@@ -184,13 +190,10 @@ print("commands initiated")
 xbcinterpreter.initCommands(client)
 print("XBC commands initiated")
 
-async def setup_hook():
-    await client.tree.sync()
-
-client.setup_hook = setup_hook
 try:
     client.run(data.getToken())
-except:
+except Exception as e:
     print("an error occured while trying to log in. maybe you don't have an internet connection or the token is invalid?")
+    print("exception: ",e)
 
 # ((1÷65)−0.005)×1.5 is the formula for euros to xixoyens btw
