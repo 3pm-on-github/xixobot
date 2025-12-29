@@ -66,8 +66,8 @@ def register(client, bank):
     
     @client.tree.command(name="cmd", description="command line where you can run custom commands")
     async def cmd_command(interaction: discord.Interaction, command:str):
-        async def returns(string):
-            await interaction.response.send_message(f"`> {command}`\n{string}")
+        async def returns(string="", file=None):
+            await interaction.response.send_message(f"`> {command}`\n{string}", file=discord.File(file) if file else None)
 
         if command.startswith("say "):
             await returns(command[4:])
@@ -84,7 +84,7 @@ def register(client, bank):
         elif command == "IHATESTREAMING":
             await returns("remember to NOT use internet archive or else you could accidentally find entire movies free to watch because its PIRACY and ILLEGAL!!")
         elif command == "BALL":
-            await returns("https://www.myinstants.com/media/sounds/undertale-ballchime.mp3")
+            await returns(file="assets/audio/undertale-ballchime.mp3")
 
     @client.tree.command(name="removemydata", description="removes your data from xixobot")
     async def removemydata_command(interaction: discord.Interaction):
