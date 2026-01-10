@@ -126,11 +126,11 @@ def register(client, bank):
 
     @client.tree.command(name='playmp3',description='plays an mp3 in a voice channel')
     async def playmp3(interaction: discord.Interaction, file: discord.Attachment):
-        if not file.filename.endswith(".mp3"):
-            await interaction.response.send_message("please upload a valid .mp3 file")
+        if not file.filename.endswith(".mp3") and not file.filename.endswith(".wav"):
+            await interaction.response.send_message("please upload a valid .mp3/.wav file")
             return
         user=interaction.user
-        filepath = f"./music.mp3"
+        filepath = f"./music.mp3" if file.filename.endswith(".mp3") else f"./music.wav"
         await file.save(filepath)
         voice_channel=user.voice.channel
         if voice_channel!= None:

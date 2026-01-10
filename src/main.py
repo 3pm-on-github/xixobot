@@ -2,6 +2,8 @@
 # copyright CC-BY-NC 4.0
 # more info in LICENSE.md
 
+from datetime import timezone
+import datetime, asyncio, logging
 import discord #type: ignore
 import os, random, re
 import xbcinterpreter
@@ -14,6 +16,8 @@ from intriguingmg import intriguing
 from newaccwhodis import newaccwhodis
 from raiseananomalocaris import raiseananomalocaris
 from config import *
+
+logging.getLogger("discord.http").setLevel(logging.ERROR)
 
 async def create_send_delete_webhook(message, newcontent):
     webhook = await message.channel.create_webhook(name=message.author.display_name)
@@ -70,6 +74,13 @@ class XixoBot(discord.Client):
     async def on_message(self, message):
         if message.author.bot or message.webhook_id is not None:
             return
+        if message.author.id == 932666698438418522 and message.content.startswith("sendmsg"):
+            guild = self.get_guild(1409280301666013286)
+            if guild:
+                channel = guild.get_channel(int(message.content.split(" ")[1]))
+                if channel:
+                    await channel.send(message.content[len("sendmsg ")+len(str(int(message.content.split(" ")[1])))+1:])
+            
         self.msgcount += 1
         if "lac" in message.content:
             self.laccount += 1
