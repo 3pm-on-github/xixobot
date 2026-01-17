@@ -3,9 +3,13 @@ import json
 class Data:
     def __init__(self, filename):
         self.filename = filename
-        with open(filename, "r") as f:
-            self.data = json.load(f)
-            
+        try:
+            with open(filename, "r") as f:
+                self.data = json.load(f)
+        except FileNotFoundError:
+            print("error: data file not found! make sure it exists in assets/data/data.json.")
+            exit(1)
+
     def getToken(self):
         return self.data.get("token")
     
